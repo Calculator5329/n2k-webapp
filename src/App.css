@@ -1,0 +1,78 @@
+/* src/App.css */
+
+/* Apply styles to the body for centering and background */
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Align to the top, not fully centered */
+  /*min-height: 80vh;       /* Reduced min-height */
+  background-color: #282c34; /* React default dark gray */
+  font-family: 'Impact', 'sens-serif','Segoe UI', Tahoma, Geneva, Verdana;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px; /* Add top margin to push the board down */
+}
+
+h1 {
+  color: #fff; /*White text*/
+  margin-bottom: 20px;
+}
+
+.board-container {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 1px;
+  box-shadow:
+    0 0 0 10px #faf6af,
+    0 0 0 13px #1a1a1a,      /* Innermost dark gray border (simulates first black line) */
+    0 0 0 18px #FAF6AF,         /* White border (simulates the white space) */
+    0 0 0 21px #1a1a1a,     /* Middle dark gray border (simulates the second black line) */
+    0 0 0 40px #FAF6AF;    
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(6, 100px); /* Larger squares - 100px */
+  grid-template-rows: repeat(6, 100px);  /* Larger squares - 100px */
+  gap: 10px; /* Increased gap */
+}
+
+.board-square {
+  width: 100px;        /* Larger squares */
+  height: 100px;       /* Larger squares */
+  border: 2px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;      /* Larger font size */
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  background-color: #f9f9f9;
+  color: #060842;
+  font-weight: bold;
+}
+
+.board-square:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+.board-square.highlighted {
+  background-color: #3498db;
+  color: white;
+  border-color: #2980b9;
+}
+
+.board-square.highlighted:hover {
+  background-color: #2980b9;
+}
