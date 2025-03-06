@@ -11,6 +11,8 @@ const BoardSquare = ({ value, onClick, isSelected }) => { // Receive isSelected 
     <div
       className={`board-square ${isSelected ? 'highlighted' : ''}`} // Use isSelected
       onClick={handleClick}
+      style={{ userSelect: "none" }} // Prevent text selection
+      unselectable="on"
     >
       {value}
     </div>

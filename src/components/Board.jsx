@@ -1,34 +1,18 @@
 // src/components/Board.jsx
 import React from 'react';
-import BoardSquare from './BoardSquare';
+import BoardSquare from './BoardSquare'; // Assuming you have a separate BoardSquare component
 
-const Board = ({ onSquareClick }) => {
-  const boardValues = Array.from({ length: 36 }, (_, i) => i + 1);
-
-  //We need to have access to the selectedSquares set in the parent.
-  const [selectedSquares, setSelectedSquares] = React.useState(new Set());
-
-    const handleSquareClick = (value) => {
-        const newSelectedSquares = new Set(selectedSquares); // Create a copy
-
-        if (newSelectedSquares.has(value)) {
-            newSelectedSquares.delete(value); // Remove if already selected
-        } else {
-            newSelectedSquares.add(value);    // Add if not selected
-        }
-
-        setSelectedSquares(newSelectedSquares);
-        onSquareClick(value);
-    };
+const Board = ({ onSquareClick, boardValues }) => {
+  // No need for local selectedSquares state here.  It's managed in App.jsx.
 
   return (
     <div className="board">
-      {boardValues.map((value, index) => (
+      {boardValues.map((value) => ( // Use the boardValues prop directly
         <BoardSquare
-          key={index}
+          key={value} // Use value as the key (since values are unique now)
           value={value}
-          onClick={() => handleSquareClick(value)}
-          isSelected={selectedSquares.has(value)} // Pass isSelected
+          onClick={() => onSquareClick(value)} // Pass the value to the click handler
+          // isSelected prop is no longer needed here, highlighting handled in App.css
         />
       ))}
     </div>
