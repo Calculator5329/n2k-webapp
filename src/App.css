@@ -111,35 +111,40 @@ h1 {
 
 .score-container {
   position: absolute;
-  bottom: 4%; /* Moves it lower on the screen */
-  width: 35%;
-  height: 5%;
+  bottom: 2%; /* Moves it lower on the screen */
+  width: 90%;
+  max-width: 35rem;
+  height: auto;
+  min-height: 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-family: 'sans-serif'; /* Use a custom font */
-  font-size: 48px;
+  font-size: clamp(1rem, 4vw, 3rem);
   font-weight: bold;
   color: #aaaaaa;
-  padding: 15px 30px; /* Adds some spacing inside */
+  padding: 1rem 2rem; /* Adds some spacing inside */
   background-color: #202834; /* Semi-transparent background */
   border-radius: 25px; /* Makes it a rounded rectangle */
   border: 3px solid #000000; /* Adds a border */
 }
 
 .dice-text {
-  position: absolute;
-  left: 5%;
+  position: relative;
+  left: 0;
+  white-space: nowrap;
 }
 
 .score-text {
-  position: absolute;
-  left: 65%;
+  position: relative;
+  left: 0;
+  white-space: nowrap;
 }
 
 .separator {
-  position: absolute;
-  left: 50%;
+  position: relative;
+  left: 0;
+  margin: 0 1rem;
 }
 
 .board-square.highlighted {
@@ -274,6 +279,7 @@ input[type="range"]:disabled {
 
   .score-container {
     font-size: 20px;
+    padding: 0.75rem 1.5rem;
   }
 
   .digital-clock {
