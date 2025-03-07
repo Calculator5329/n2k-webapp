@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "lts/*" # Use the latest LTS version of Node.js
+          node-version: "lts/*"
 
       - name: Install dependencies
         run: npm install
@@ -24,9 +24,15 @@ jobs:
       - name: Build the app
         run: npm run build
 
+      - name: Print working directory
+        run: pwd # Add this line to print the current working directory
+
+      - name: List files in the directory
+        run: ls -l # Add this line to list files in the current directory
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist # Output directory from the build
+          publish_dir: ./dist
           publish_branch: gh-pages
