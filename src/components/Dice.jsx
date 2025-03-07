@@ -13,11 +13,11 @@ const diceFaces = {
     9: [true, true, true, true, true, true, true, true, true]
 };
 
-const Dice = ({ diceNumbers, setDiceNumbers }) => {
+const Dice = ({ diceNumbers, setDiceNumbers, disabled }) => { // Add disabled prop
     const [rolling, setRolling] = useState(false);
 
     const rollDice = () => {
-        if (rolling) return;
+        if (rolling || disabled) return; // Check disabled state
 
         setRolling(true);
         setTimeout(() => {
@@ -41,7 +41,11 @@ const Dice = ({ diceNumbers, setDiceNumbers }) => {
                     </div>
                 ))}
             </div>
-            <button className="roll-button" onClick={rollDice} disabled={rolling}>
+            <button 
+                className="roll-button" 
+                onClick={rollDice} 
+                disabled={rolling || disabled} // Add disabled state
+            >
                 Roll Dice
             </button>
         </div>

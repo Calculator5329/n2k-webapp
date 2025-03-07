@@ -142,11 +142,6 @@ h1 {
   left: 50%;
 }
 
-.board-square:hover {
-  background-color: #e0e0e0;
-  transform: scale(1.05);
-}
-
 .board-square.highlighted {
   background-color: #3498db;
   color: white;
@@ -166,12 +161,76 @@ h1 {
   margin-bottom: 20px;
 }
 
-
-
-
-
 .submit-button:focus,
 .submit-button:active {
   outline: none;  /* Remove the outline on focus/active */
   box-shadow: none; /* Remove any box-shadow */
+}
+
+.submit-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.start-game-button {
+  width: 80%;
+  height: 50px;
+  margin: 20px auto;
+  display: block;
+  font-size: 20px;
+  font-weight: normal;
+  color: white;
+  background-color: #104400 !important;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  outline: none !important;
+  box-shadow: none;
+}
+
+.start-game-button:hover {
+  background-color: #0c3600; /* Slightly darker green on hover */
+}
+
+.start-game-button:active {
+  background-color: #082400; /* Even darker green when pressed */
+  transform: scale(0.95); /* Slightly shrink when clicked */
+}
+
+.start-game-button.game-active {
+  background-color: #880000 !important;
+}
+
+.start-game-button.game-active:active {
+  background-color: #660000; /* Darker red when pressed */
+}
+
+input[type="range"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.timer-container {
+  position: absolute;
+  left: 275px;
+  top: 800px; /* Adjust based on options container height */
+  width: 200px;
+  padding: 10px;
+  background-color: #202834;
+  border-radius: 25px;
+  border: 3px solid #000000;
+}
+
+.digital-clock {
+  background-color: #000000;
+  color: #ff0000;
+  font-family: 'Courier New', monospace;
+  font-size: 48px;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
 }
