@@ -72,3 +72,37 @@
     background-color: #aaa;
     cursor: not-allowed;
 }
+
+@media screen and (max-width: 768px) {
+  .dice {
+    width: 30px;
+    height: 30px;
+  }
+
+  .dot {
+    width: 4px;
+    height: 4px;
+  }
+
+  .roll-button {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .dice-wrapper {
+    gap: 5px;
+  }
+
+  .dice {
+    width: 24px;
+    height: 24px;
+    padding: 3px;
+  }
+
+  .dot {
+    width: 3px;
+    height: 3px;
+  }
+}

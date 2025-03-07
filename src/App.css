@@ -234,3 +234,63 @@ input[type="range"]:disabled {
   letter-spacing: 2px;
   text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
 }
+
+/* Add at the end of the file */
+@media screen and (max-width: 1200px) {
+  .options-container {
+    position: static;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 400px;
+    height: auto;
+  }
+
+  .timer-container {
+    position: static;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .board-container {
+    margin: 20px auto;
+    transform: scale(0.8);
+    transform-origin: top center;
+  }
+
+  .score-container {
+    position: static;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 400px;
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .board-container {
+    transform: scale(0.6);
+  }
+
+  .score-container {
+    font-size: 20px;
+  }
+
+  .digital-clock {
+    font-size: 36px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .board-container {
+    transform: scale(0.4);
+  }
+
+  .options-container h1 {
+    font-size: 24px;
+  }
+
+  .options-container h2 {
+    font-size: 18px;
+  }
+}
