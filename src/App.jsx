@@ -5,6 +5,7 @@ import Dice from "./components/Dice";
 import { evaluateInput } from "./utils/writtenFuncs";
 import SmartInputs from "./components/SmartInputs";
 import { generateRandomBoard, generatePatternBoard } from "./utils/boardFuncs";
+import Header from "./components/Header";
 import "./App.css";
 
 function App() {
@@ -163,104 +164,107 @@ function App() {
   };
 
   return (
-    <div className="app-container">
-      <div className="horizontal-container">
-        <div className="options-and-timer-container">
-          <div className="options-container">
-            <h1>Options</h1>
-            <div className="option-group">
-              <h2>- Random Board</h2>
-              <label htmlFor="highestNumSlider">
-                Highest Number: {highestNum}
-              </label>
-              <input
-                type="range"
-                id="highestNumSlider"
-                min="36"
-                max="999"
-                value={highestNum}
-                onChange={handleSliderChangeR}
-                disabled={beginGame}
-              />
-              <button
-                className="submit-button"
-                onClick={handleSubmitR}
-                disabled={beginGame}
-              >
-                Submit
-              </button>
-              <h2>- Pattern Board</h2>
-              <label htmlFor="patternSlider">Count by: {patternNum}s</label>
-              <input
-                type="range"
-                id="highestNumSlider"
-                min="2"
-                max="30"
-                value={patternNum}
-                onChange={handleSliderChangeP}
-                disabled={beginGame}
-              />
-              <button
-                className="submit-button"
-                onClick={handleSubmitP}
-                disabled={beginGame}
-              >
-                Submit
-              </button>
-              <div className="dice-wrapper">
-                <Dice
-                  diceNumbers={diceNumbers}
-                  setDiceNumbers={setDiceNumbers}
+    <div className="main-container">
+      <Header />
+      <div className="app-container">
+        <div className="horizontal-container">
+          <div className="options-and-timer-container">
+            <div className="options-container">
+              <h1>Options</h1>
+              <div className="option-group">
+                <h2>- Random Board</h2>
+                <label htmlFor="highestNumSlider">
+                  Highest Number: {highestNum}
+                </label>
+                <input
+                  type="range"
+                  id="highestNumSlider"
+                  min="36"
+                  max="999"
+                  value={highestNum}
+                  onChange={handleSliderChangeR}
                   disabled={beginGame}
                 />
+                <button
+                  className="submit-button"
+                  onClick={handleSubmitR}
+                  disabled={beginGame}
+                >
+                  Submit
+                </button>
+                <h2>- Pattern Board</h2>
+                <label htmlFor="patternSlider">Count by: {patternNum}s</label>
+                <input
+                  type="range"
+                  id="highestNumSlider"
+                  min="2"
+                  max="30"
+                  value={patternNum}
+                  onChange={handleSliderChangeP}
+                  disabled={beginGame}
+                />
+                <button
+                  className="submit-button"
+                  onClick={handleSubmitP}
+                  disabled={beginGame}
+                >
+                  Submit
+                </button>
+                <div className="dice-wrapper">
+                  <Dice
+                    diceNumbers={diceNumbers}
+                    setDiceNumbers={setDiceNumbers}
+                    disabled={beginGame}
+                  />
+                </div>
+                <button
+                  className={`start-game-button ${
+                    beginGame ? "game-active" : ""
+                  }`}
+                  onClick={handleStartGame}
+                >
+                  {buttonText}
+                </button>
               </div>
-              <button
-                className={`start-game-button ${
-                  beginGame ? "game-active" : ""
-                }`}
-                onClick={handleStartGame}
-              >
-                {buttonText}
-              </button>
+            </div>
+            <div className="timer-container">
+              <div className="digital-clock">{formatTime(timer)}</div>
             </div>
           </div>
-          <div className="timer-container">
-            <div className="digital-clock">{formatTime(timer)}</div>
+          <div className="board-and-score-container">
+            <div className="board-container">
+              <Board
+                onSquareClick={handleSquareClick}
+                boardValues={boardValues}
+                selectedSquares={selectedSquares}
+              />
+            </div>
+            <div className="score-container">
+              <span className="dice-text">Dice: {diceString}</span>
+              <span className="separator">|</span>
+              <span className="score-text">Score: {score}</span>
+            </div>
           </div>
-        </div>
-        <div className="board-and-score-container">
-          <div className="board-container">
-            <Board
-              onSquareClick={handleSquareClick}
-              boardValues={boardValues}
-              selectedSquares={selectedSquares}
-            />
-          </div>
-          <div className="score-container">
-            <span className="dice-text">Dice: {diceString}</span>
-            <span className="separator">|</span>
-            <span className="score-text">Score: {score}</span>
-          </div>
-        </div>
-        <div className="new-input-container">
-          <SmartInputs onSubmit={handleInputSubmit} />
-          <div className="history-table" ref={historyRef}>
-            <table>
-              <thead>
-                <tr>
-                  <th>Equation</th>
-                  <th>Result</th>
-                </tr>
-              </thead>
-              <tbody>
-                {equationHistory.map((entry, index) => (
-                  <tr key={index}>
-                    <td>{entry.equation}</td>
-                    <td>{entry.result}</td>
+          <div className="new-input-container">
+            <SmartInputs onSubmit={handleInputSubmit} />
+            <div className="history-table" ref={historyRef}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Equation</th>
+                    <th>Result</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {equationHistory.map((entry, index) => (
+                    <tr key={index}>
+                      <td>{entry.equation}</td>
+                      <td>{entry.result}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

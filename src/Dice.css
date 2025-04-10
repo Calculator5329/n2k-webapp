@@ -1,74 +1,71 @@
 .dice-container {
-    display: flex;
-    flex-direction: column; /* Ensure button is below */
-    align-items: center;
+  display: flex;
+  flex-direction: column; /* Ensure button is below */
+  align-items: center;
 }
 
 .dice-wrapper {
-    display: flex;
-    justify-content: center;
-    gap: 10px; /* Space between dice */
-    margin-bottom: 15px; /* Space before button */
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Space between dice */
+  margin-bottom: 15px; /* Space before button */
 }
 
 .dice {
-    width: 2.25rem;
-    height: 2.25rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    background-color: white;
-    border-radius: 8px;
-    border: 2px solid black;
-    padding: 5px;
-    justify-items: center;
-    align-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  background-color: white;
+  border-radius: 8px;
+  border: 2px solid black;
+  padding: 5px;
+  justify-items: center;
+  align-items: center;
 }
 
 .dot {
-    width: 0.3rem;
-    height: 0.3rem;
-    background-color: black;
-    border-radius: 50%;
-    display: none; /* Hide dots by default */
+  width: 0.3rem;
+  height: 0.3rem;
+  background-color: black;
+  border-radius: 50%;
+  display: none; /* Hide dots by default */
 }
 
 .visible {
-    display: block; /* Show dots when needed */
+  display: block; /* Show dots when needed */
 }
 
 .rolling {
-    animation: roll 1s ease-in-out;
+  animation: roll 1s ease-in-out;
 }
 
 @keyframes roll {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(90deg); }
-    50% { transform: rotate(180deg); }
-    75% { transform: rotate(270deg); }
-    100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .roll-button {
-    margin-top: 10px;
-    padding: 0.3rem 0.6rem;
-    font-size: 0.875rem;
-    font-weight: bold;
-    cursor: pointer;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.roll-button:hover {
-    background-color: #2980b9;
+  margin-top: 5px;
 }
 
 .roll-button:disabled {
-    background-color: #aaa;
-    cursor: not-allowed;
+  background-color: #aaa;
+  cursor: not-allowed;
 }
 
 @media screen and (max-width: 768px) {
