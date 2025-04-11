@@ -4,18 +4,31 @@ body {
   padding: 0;
   background-color: black;
   background-image: url("/texture_2.png");
-  background-repeat: repeat;
-  background-size: auto;
-  font-family: "Impact", "sans-serif", "Segoe UI", Tahoma, Geneva, Verdana;
+  background-attachment: fixed;
+  font-family: "sans-serif", "Segoe UI", Tahoma, Geneva, Verdana;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh; /* Ensure the body grows with content */
+  overflow-y: scroll; /* Enable scrolling */
+  scrollbar-width: none; /* Hide scrollbar (for Firefox) */
+}
+
+html {
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
 }
 
 html,
-body,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
 #root {
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 }
 
 .main-container {
@@ -154,6 +167,7 @@ h1 {
   background-color: #f9f9f9;
   color: #060842;
   font-weight: bold;
+  font-family: "Impact";
 }
 
 .score-container {
@@ -367,4 +381,12 @@ input[type="range"]:disabled {
 
 .history-table th {
   background-color: #282c34;
+}
+#tsparticles {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  top: 0;
+  left: 0;
 }

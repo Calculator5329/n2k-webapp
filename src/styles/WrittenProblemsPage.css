@@ -1,0 +1,74 @@
+.written-page {
+  text-align: center;
+  padding: 1rem;
+  height: 40rem;
+}
+
+.equation-display {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.written-form {
+  margin-top: 1rem;
+}
+
+.written-form input {
+  margin: 0 0.5rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 60px;
+  text-align: center;
+}
+
+.written-form button {
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+.feedback {
+  font-weight: bold;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #007f00;
+}
+
+.new-problem-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+}
+
+.difficulty-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.difficulty-button {
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  background-color: #22b5ff;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.difficulty-button:hover {
+  background-color: #2c71ca;
+}
+
+.written-form input::-webkit-outer-spin-button,
+.written-form input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.written-form input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
