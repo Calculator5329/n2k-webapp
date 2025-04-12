@@ -8,6 +8,8 @@ import SignupPage from "./pages/SignupPage";
 import SignoutPage from "./pages/SignoutPage";
 import ProfilePage from "./pages/ProfilePage";
 import WrittenProblemsPage from "./pages/WrittenProblemsPage";
+import BoardPage from "./pages/BoardPage";
+import HowToPage from "./pages/HowToPage";
 
 function App() {
   return (
@@ -15,12 +17,14 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/play" element={<GamePage />} />
+        <Route path="/play" element={<BoardPage />} />
+        <Route path="/practice" element={<GamePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/signout" element={<SignoutPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/play-written" element={<WrittenProblemsPage />} />
+        <Route path="/howtoplay" element={<HowToPage />} />
         {/* Add more routes later */}
       </Routes>
     </div>

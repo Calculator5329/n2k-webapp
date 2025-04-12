@@ -1,0 +1,71 @@
+.difficulty-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.difficulty-button {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.difficulty-button:hover {
+  background-color: #333;
+}
+
+.difficulty-button.selected {
+  background-color: #0b84ff;
+  font-weight: bold;
+  border-color: #0b84ff;
+}
+.start-game-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: #444; /* optional: duller color */
+  border-color: #666; /* optional: tweak border */
+}
+
+/* Buttons */
+.btn-board {
+  display: inline-block;
+  padding: 0.85rem 1.5rem;
+  font-size: 1.25rem; /* ~18px */
+  font-weight: 600;
+  font-family: arial;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #111; /* or use #000, or a brand color */
+  border: none;
+  border-radius: 999px; /* fully rounded pill */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease,
+    transform 0.1s ease;
+  cursor: pointer;
+  width: 80%;
+  height: 70px;
+  margin: 10px 0;
+}
+
+.btn-board:hover {
+  background-color: #444;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.btn-board:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-board:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.4); /* optional accessibility ring */
+}

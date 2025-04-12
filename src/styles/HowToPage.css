@@ -1,0 +1,74 @@
+.howto-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 2rem;
+  margin: 4.5rem auto;
+  width: 80rem;
+  padding: 2rem;
+  background-color: #2c2c2c;
+  border-radius: 5px;
+  border: 3px solid #000000;
+  box-shadow: 0 2px 8px rgba(36, 124, 255, 0.75);
+  color: #f1f1f1;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.howto-container p {
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.howto-container h1 {
+  margin-top: 0.5rem;
+  margin-bottom: 0rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.howto-container h2,
+.howto-container h3 {
+  color: #f8f8f8;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.howto-container h3 {
+  font-size: 1.5rem;
+}
+
+.howto-container ul {
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.howto-container code,
+.howto-container pre {
+  background-color: #1e1e1e;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #4fc3f7;
+  font-family: Consolas, monospace;
+}
+
+.howto-container pre {
+  white-space: pre-wrap;
+  margin: 0.5rem 0 1rem 0;
+}
+
+.howto-container strong {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.howto-container .separator {
+  height: 2px;
+  background-color: #444444;
+  margin: 5rem 0;
+  border: none;
+}

@@ -1,13 +1,36 @@
-export function splitStringNumber(s) {
+export function splitStringNumber(s, dice) {
   if (!/^\d+$/.test(s)) {
     throw new Error("Input must be digits only.");
   }
 
   if (s.length === 1) {
-    return [parseInt(s), 1];
+    const base = parseInt(s);
+    if (!dice.includes(base)) throw new Error("Base not in dice");
+    return [base, 1];
   }
 
-  return [parseInt(s.slice(0, -1)), parseInt(s.slice(-1))];
+  // Try double-digit base first
+  if (s.length >= 2) {
+    const base2 = parseInt(s.slice(0, 2));
+    const exp2 = parseInt(s.slice(2) || "1");
+
+    if (dice.includes(base2)) {
+      if (s.length === 2 || s.length === 3) {
+        return [base2, exp2];
+      } else {
+        throw new Error("Exponent must be 1 digit");
+      }
+    }
+  }
+
+  // Fallback to single-digit base
+  const base1 = parseInt(s[0]);
+  const exp1 = parseInt(s.slice(1));
+  if (dice.includes(base1)) {
+    return [base1, exp1];
+  }
+
+  throw new Error("Base not found in dice");
 }
 
 export function checkNums(n1, n2, n3, final) {
@@ -37,9 +60,9 @@ export function checkNums(n1, n2, n3, final) {
 
 export function evaluateInput(n1s, n2s, n3s, num, dice, board) {
   try {
-    const n1 = splitStringNumber(n1s);
-    const n2 = splitStringNumber(n2s);
-    const n3 = splitStringNumber(n3s);
+    const n1 = splitStringNumber(n1s, dice);
+    const n2 = splitStringNumber(n2s, dice);
+    const n3 = splitStringNumber(n3s, dice);
     const currentNum = parseInt(num, 10);
 
     if (!board.includes(currentNum)) return false;

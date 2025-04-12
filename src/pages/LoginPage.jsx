@@ -17,7 +17,7 @@ function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("✅ Logged in");
-      navigate("/play"); // or redirect to /profile if you prefer
+      navigate("/"); // or redirect to /profile if you prefer
     } catch (err) {
       console.error("❌ Login error:", err.message);
       setError(err.message);

@@ -4,6 +4,7 @@ import Dice from "../components/Dice";
 import { evaluateInput } from "../utils/writtenFuncs";
 import SmartInputs from "../components/SmartInputs";
 import { generateRandomBoard, generatePatternBoard } from "../utils/boardFuncs";
+import { useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
 import "../App.css";
 
@@ -14,16 +15,22 @@ function GamePage() {
   const [beginGame, setBeginGame] = useState(false); // Add this line
   const diceString = diceNumbers.join(", ");
   const [highestNum, setHighestNum] = useState(36); // Initial value
+  const [searchParams] = useSearchParams();
+  let rawPattern = parseInt(searchParams.get("pattern"));
+  const patternFromURL = !isNaN(rawPattern) ? Math.min(rawPattern, 30) : 2;
+  const [patternNum, setPatternNum] = useState(
+    !isNaN(patternFromURL) ? patternFromURL : 2
+  );
   const [boardValues, setBoardValues] = useState(
-    Array.from({ length: 36 }, (_, i) => i + 1)
-  ); // Initial board
-  const [patternNum, setPatternNum] = useState(2);
+    generatePatternBoard(!isNaN(patternFromURL) ? patternFromURL : 2)
+  );
+
   const [buttonText, setButtonText] = useState("Start Game"); // Add this line
   const [timer, setTimer] = useState(60);
   const [gameFinished, setGameFinished] = useState(false);
   const [equationHistory, setEquationHistory] = useState([]);
   const historyRef = useRef(null);
-  const [useClicks] = useState(false);
+  const [useClicks] = useState(true);
 
   // Use useEffect to recalculate the score whenever selectedSquares changes
   useEffect(() => {

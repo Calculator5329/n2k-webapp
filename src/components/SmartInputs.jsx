@@ -19,6 +19,16 @@ export default function SmartInputs({ onSubmit }) {
       } else {
         handleSubmit();
       }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (index < 3) {
+        inputRefs[index + 1].current?.focus();
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (index > 0) {
+        inputRefs[index - 1].current?.focus();
+      }
     }
   };
 

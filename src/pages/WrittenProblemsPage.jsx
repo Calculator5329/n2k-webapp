@@ -4,6 +4,7 @@ import {
   checkAnswer,
 } from "../utils/writtenProblems";
 import "../styles/WrittenProblemsPage.css";
+import { useSearchParams } from "react-router-dom";
 
 const DIFFICULTIES = ["easy", "medium", "hard", "very hard", "impossible"];
 
@@ -20,6 +21,10 @@ function WrittenProblemsPage() {
   const xRef = useRef(null);
   const yRef = useRef(null);
   const zRef = useRef(null);
+  const [searchParams] = useSearchParams();
+
+  const capitalizeWords = (str) =>
+    str.replace(/\b\w/g, (char) => char.toUpperCase());
 
   const startRound = (selectedDifficulty) => {
     const generated = Array.from({ length: 5 }, () =>
@@ -115,25 +120,45 @@ function WrittenProblemsPage() {
 
         {phase === "select" && (
           <>
-            <h2>Select Difficulty</h2>
-            <div className="difficulty-buttons">
-              {DIFFICULTIES.map((level) => (
+            {!searchParams.get("difficulty") ? (
+              <>
+                <h2>Select Difficulty</h2>
+                <div className="difficulty-buttons">
+                  {DIFFICULTIES.map((level) => (
+                    <button
+                      key={level}
+                      onClick={() => startRound(level)}
+                      className="difficulty-button"
+                    >
+                      {level}
+                    </button>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                <h2>
+                  Difficulty: {capitalizeWords(searchParams.get("difficulty"))}
+                </h2>
+
                 <button
-                  key={level}
-                  onClick={() => startRound(level)}
-                  className="difficulty-button"
+                  className="start-game-button"
+                  style={{ width: "200px" }}
+                  onClick={() =>
+                    startRound(searchParams.get("difficulty").toLowerCase())
+                  }
                 >
-                  {level}
+                  Start Round
                 </button>
-              ))}
-            </div>
+              </>
+            )}
           </>
         )}
 
         {phase === "round" && (
           <>
             <h3>
-              Problem {current + 1}/5 ({difficulty})
+              Problem {current + 1}/5 ({capitalizeWords(difficulty)})
             </h3>
             {renderProblem(problems[current])}
 

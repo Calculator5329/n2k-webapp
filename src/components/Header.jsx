@@ -14,8 +14,11 @@ function Header() {
         <Link to="/" className="nav-link">
           Home
         </Link>
-        <Link to="/play-written" className="nav-link">
-          Play
+        <Link to="/practice" className="nav-link">
+          Practice
+        </Link>
+        <Link to="/howtoplay" className="nav-link">
+          How to Play
         </Link>
       </div>
       <div className="nav-right">
