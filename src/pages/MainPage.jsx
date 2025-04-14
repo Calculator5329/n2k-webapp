@@ -23,98 +23,146 @@ function MainPage() {
 function LoggedInLayout() {
   const [showMore, setShowMore] = useState(false);
 
+  const allGames = [
+    {
+      title: "Board Slam Classic",
+      image: "/boards/boardx1.png",
+      description: "The classic 1-36 board! A great place to start.",
+      link: "/play?pattern=1",
+      id: "pattern1",
+    },
+    {
+      title: "Board Slam - 2s",
+      image: "/boards/boardx2.png",
+      description: "This board counts by 2s up to 72.",
+      link: "/play?pattern=2",
+      id: "pattern2",
+    },
+    {
+      title: "Board Slam - 3s",
+      image: "/boards/boardx3.png",
+      description: "This board counts by 3s up to 108.",
+      link: "/play?pattern=3",
+      id: "pattern3",
+    },
+    {
+      title: "Written Problems - Easy",
+      image: "/written/written_easy.png",
+      description: "Written problems with difficulty levels from 0–10.",
+      link: "/play-written?difficulty=easy",
+      id: "written_easy",
+    },
+    {
+      title: "Written Problems - Medium",
+      image: "/written/written_medium.png",
+      description: "Written problems with difficulty levels from 10–25.",
+      link: "/play-written?difficulty=medium",
+      id: "written_medium",
+    },
+    {
+      title: "Written Problems - Hard",
+      image: "/written/written_hard.png",
+      description: "Written problems with difficulty levels from 25–40.",
+      link: "/play-written?difficulty=hard",
+      id: "written_hard",
+    },
+    {
+      title: "Board Slam – 4s",
+      image: "/boards/boardx4.png",
+      description: "Practice 4s up to 144.",
+      link: "/play?pattern=4",
+      id: "pattern4",
+    },
+    {
+      title: "Board Slam – 5s",
+      image: "/boards/boardx5.png",
+      description: "A great jump into mid-range values.",
+      link: "/play?pattern=5",
+      id: "pattern5",
+    },
+    {
+      title: "Board Slam – 6s",
+      image: "/boards/boardx6.png",
+      description: "A great jump into mid-range values.",
+      link: "/play?pattern=6",
+      id: "pattern6",
+    },
+    {
+      title: "Board Slam – 7s",
+      image: "/boards/boardx7.png",
+      description: "A great jump into mid-range values.",
+      link: "/play?pattern=7",
+      id: "pattern7",
+    },
+    {
+      title: "Board Slam – 8s",
+      image: "/boards/boardx8.png",
+      description: "A great jump into mid-range values.",
+      link: "/play?pattern=8",
+      id: "pattern8",
+    },
+    {
+      title: "Board Slam – 9s",
+      image: "/boards/boardx9.png",
+      description: "A great jump into mid-range values.",
+      link: "/play?pattern=9",
+      id: "pattern9",
+    },
+    {
+      title: "Written Problems – Very Hard",
+      image: "/written/written_very_hard.png",
+      description: "Written problems difficulty 40–60.",
+      link: "/play-written?difficulty=very hard",
+      id: "written_very_hard",
+    },
+    {
+      title: "Written Problems – Impossible",
+      image: "/written/written_impossible.png",
+      description: "Insane difficulty problems 60+.",
+      link: "/play-written?difficulty=impossible",
+      id: "written_impossible",
+    },
+  ];
+
+  const gameUsage = {
+    pattern2: 5,
+    pattern1: 8,
+    pattern3: 2,
+    written_easy: 7,
+    written_medium: 1,
+    written_hard: 3,
+    pattern4: 4,
+    pattern5: 6,
+    pattern6: 1,
+    pattern7: 9,
+    pattern8: 3,
+    pattern9: 5,
+    written_very_hard: 2,
+    written_impossible: 1,
+  };
+
+  const sortedGames = [...allGames].sort((a, b) => {
+    const aCount = gameUsage[a.id] || 0;
+    const bCount = gameUsage[b.id] || 0;
+    return bCount - aCount;
+  });
+
   return (
     <div className="main-page app-container-mp">
       <div className="card-container">
-        <GameCard
-          title="Board Slam Classic"
-          image="/boards/boardx1.png"
-          description="The classic 1-36 board! A great place to start."
-          link="/play?pattern=1"
-        />
-        <GameCard
-          title="Board Slam - 2s"
-          image="/boards/boardx2.png"
-          description="This board counts by 2s up to 72."
-          link="/play?pattern=2"
-        />
-        <GameCard
-          title="Board Slam - 3s"
-          image="/boards/boardx3.png"
-          description="This board counts by 3s up to 108."
-          link="/play?pattern=3"
-        />
-        <GameCard
-          title="Written Problems - Easy"
-          image="/written/written_easy.png"
-          description="Written problems with difficulty levels from 0–10."
-          link="/play-written?difficulty=easy"
-        />
-        <GameCard
-          title="Written Problems - Medium"
-          image="/written/written_medium.png"
-          description="Written problems with difficulty levels from 10–25."
-          link="/play-written?difficulty=medium"
-        />
-        <GameCard
-          title="Written Problems - Hard"
-          image="/written/written_hard.png"
-          description="Written problems with difficulty levels from 25–40."
-          link="/play-written?difficulty=hard"
-        />
-
-        {showMore && (
-          <>
+        {sortedGames.map((game, i) => {
+          if (!showMore && i >= 6) return null; // only show first 6 unless expanded
+          return (
             <GameCard
-              title="Board Slam – 4s"
-              image="/boards/boardx4.png"
-              description="Practice 4s up to 144."
-              link="/play?pattern=4"
+              key={game.id}
+              title={game.title}
+              image={game.image}
+              description={game.description}
+              link={game.link}
+              played={gameUsage[game.id]}
             />
-            <GameCard
-              title="Board Slam – 5s"
-              image="/boards/boardx5.png"
-              description="A great jump into mid-range values."
-              link="/play?pattern=5"
-            />
-            <GameCard
-              title="Board Slam – 6s"
-              image="/boards/boardx6.png"
-              description="A great jump into mid-range values."
-              link="/play?pattern=6"
-            />
-            <GameCard
-              title="Board Slam – 7s"
-              image="/boards/boardx7.png"
-              description="A great jump into mid-range values."
-              link="/play?pattern=7"
-            />
-            <GameCard
-              title="Board Slam – 8s"
-              image="/boards/boardx8.png"
-              description="A great jump into mid-range values."
-              link="/play?pattern=8"
-            />
-            <GameCard
-              title="Board Slam – 9s"
-              image="/boards/boardx9.png"
-              description="A great jump into mid-range values."
-              link="/play?pattern=9"
-            />
-            <GameCard
-              title="Written Problems – Very Hard"
-              image="/written/written_very_hard.png"
-              description="Written problems difficulty 40–60."
-              link="/play-written?difficulty=very hard"
-            />
-            <GameCard
-              title="Written Problems – Impossible"
-              image="/written/written_impossible.png"
-              description="Insane difficulty problems 60+."
-              link="/play-written?difficulty=impossible"
-            />
-          </>
-        )}
+          );
+        })}
       </div>
 
       <div className="see-more-container">

@@ -28,28 +28,16 @@ export function AuthProvider({ children }) {
   };
 
   useEffect(() => {
-    const init = async () => {
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        // Immediately set user from cached token
-        await fetchAndSetUserInfo(currentUser);
-        setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        await fetchAndSetUserInfo(firebaseUser);
       } else {
-        // Wait for Firebase to call back with auth state
-        const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-          if (firebaseUser) {
-            await fetchAndSetUserInfo(firebaseUser);
-          } else {
-            setUser(null);
-          }
-          setLoading(false);
-        });
-
-        return unsubscribe;
+        setUser(null);
       }
-    };
+      setLoading(false);
+    });
 
-    init();
+    return () => unsubscribe();
   }, []);
 
   return (

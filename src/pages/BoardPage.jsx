@@ -143,7 +143,7 @@ function BoardPage() {
     const newRoundScores = [...roundScores, score];
     setRoundScores(newRoundScores);
 
-    if (currentRound < 4) {
+    if (currentRound < 2) {
       const tier = {
         Easy: "S",
         Medium: "A",

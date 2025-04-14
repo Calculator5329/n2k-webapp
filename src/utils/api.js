@@ -1,6 +1,6 @@
 import { auth } from "../firebase";
 
-const API_BASE_URL = "http://192.168.1.54:8000";
+const API_BASE_URL = "http://localhost:8000";
 
 async function getAuthToken() {
   const user = auth.currentUser;
@@ -67,5 +67,37 @@ export async function getUserInfo(token) {
   });
 
   if (!res.ok) throw new Error("Failed to fetch user info");
+  return await res.json();
+}
+export async function fetchScores(gameId) {
+  const token = await getAuthToken();
+
+  const res = await fetch(`${API_BASE_URL}/scores/${gameId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch scores");
+  return await res.json();
+}
+
+export async function submitScore(gameId, { user_id, username, score }) {
+  const token = await getAuthToken();
+
+  const res = await fetch(`${API_BASE_URL}/scores/${gameId}`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user_id, username, score }),
+  });
+
+  if (!res.ok) {
+    const text = await res.text(); // might be plain error
+    throw new Error(text || "Failed to submit score");
+  }
+
   return await res.json();
 }

@@ -1,0 +1,137 @@
+.scoreboard-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 20, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  margin-top: 60px;
+}
+
+.scoreboard-modal {
+  background-color: #2f2f2f;
+  color: #f0f0f0;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  height: 736px;
+  margin-bottom: auto;
+  margin-top: 1rem;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.scoreboard-buttons {
+  margin-top: auto;
+}
+
+.scoreboard-table th,
+.scoreboard-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #444;
+  text-align: left;
+}
+
+.scoreboard-modal h2 {
+  margin: 0rem;
+}
+
+.scoreboard-highlight {
+  background-color: #223344;
+  color: #22b5ff;
+  font-weight: bold;
+  border-top: 1px solid #444;
+}
+
+.save-button,
+.close-button {
+  margin-top: 1rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.save-button {
+  background-color: #22b5ff;
+  color: white;
+  margin-right: 1rem;
+}
+
+.save-button:hover {
+  background-color: #1a91d9;
+}
+
+.close-button {
+  background-color: #555;
+  color: white;
+}
+
+.close-button:hover {
+  background-color: #777;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.pagination button {
+  padding: 0.4rem 0.75rem;
+  background-color: #444;
+  color: #eee;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background-color: #666;
+}
+
+.pagination button.active {
+  background-color: #22b5ff;
+  color: white;
+  font-weight: bold;
+}
+/* Add this below your current styles */
+.scoreboard-table-wrapper {
+  min-height: 400px;
+  transition: all 0.3s ease;
+}
+
+.scoreboard-fade {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.spacer-row {
+  height: 20px;
+}
+.spacer-row td {
+  padding: 0;
+  border: none;
+}

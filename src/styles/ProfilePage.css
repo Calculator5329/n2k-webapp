@@ -1,9 +1,14 @@
 .profile-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 0rem;
   padding: 2rem;
-  color: #fff;
-  text-align: center;
+  color: #e0e0e0;
   background-color: #282c34;
   min-height: 100vh;
+  margin-top: 60px;
 }
 
 .profile-page h1 {
@@ -11,12 +16,32 @@
   margin-bottom: 1.5rem;
 }
 
-.avatar-grid {
+.info-container {
+  background-color: rgb(56, 56, 56);
+  width: fit-content;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-left: 5rem;
+}
+
+.avatar-container {
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 2rem;
+  background-color: rgb(56, 56, 56);
+  width: fit-content;
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  margin-right: auto;
+  padding: 1rem;
 }
 
 .avatar-option {
@@ -56,4 +81,40 @@ button:hover {
 
 p {
   margin-top: 1rem;
+}
+.username-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: #1f1f1f;
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+}
+.user-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2e2e2e;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-info-table td {
+  padding: 1rem 1.5rem;
+  color: #f0f0f0;
+  border-bottom: 1px solid #444;
+  font-size: 1.25rem;
+}
+
+.user-info-table tr:last-child td {
+  border-bottom: none;
+}
+
+.user-info-table .label {
+  font-weight: bold;
+  color: #fffeb3;
+  width: 30%;
+  font-size: 1.25rem;
 }

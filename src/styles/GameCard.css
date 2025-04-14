@@ -55,3 +55,16 @@
 .game-button:hover {
   background: #0077e6;
 }
+.game-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.played-text {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-left: 1rem;
+}

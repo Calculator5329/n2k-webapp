@@ -10,6 +10,7 @@ import ProfilePage from "./pages/ProfilePage";
 import WrittenProblemsPage from "./pages/WrittenProblemsPage";
 import BoardPage from "./pages/BoardPage";
 import HowToPage from "./pages/HowToPage";
+import TestPage from "./pages/testPage";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/play-written" element={<WrittenProblemsPage />} />
         <Route path="/howtoplay" element={<HowToPage />} />
+        <Route path="/test" element={<TestPage />} />
         {/* Add more routes later */}
       </Routes>
     </div>
