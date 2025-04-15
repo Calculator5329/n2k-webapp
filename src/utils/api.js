@@ -1,6 +1,6 @@
 import { auth } from "../firebase";
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = "http://192.168.1.54:8000";
 
 async function getAuthToken() {
   const user = auth.currentUser;
@@ -59,7 +59,9 @@ export async function updateProfilePic(filename) {
   if (!res.ok) throw new Error("Failed to update profile pic");
 }
 
-export async function getUserInfo(token) {
+export async function getUserInfo() {
+  const token = await getAuthToken(); // fetch the auth token here
+
   const res = await fetch(`${API_BASE_URL}/api/get_user_info`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -69,10 +71,15 @@ export async function getUserInfo(token) {
   if (!res.ok) throw new Error("Failed to fetch user info");
   return await res.json();
 }
-export async function fetchScores(gameId) {
-  const token = await getAuthToken();
 
-  const res = await fetch(`${API_BASE_URL}/scores/${gameId}`, {
+export async function fetchScores(gameId, difficulty = null) {
+  const token = await getAuthToken();
+  console.log(difficulty);
+  const url = difficulty
+    ? `${API_BASE_URL}/scores/${gameId}?difficulty=${difficulty}`
+    : `${API_BASE_URL}/scores/${gameId}`;
+
+  const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -82,7 +89,10 @@ export async function fetchScores(gameId) {
   return await res.json();
 }
 
-export async function submitScore(gameId, { user_id, username, score }) {
+export async function submitScore(
+  gameId,
+  { user_id, username, score, difficulty }
+) {
   const token = await getAuthToken();
 
   const res = await fetch(`${API_BASE_URL}/scores/${gameId}`, {
@@ -91,13 +101,42 @@ export async function submitScore(gameId, { user_id, username, score }) {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ user_id, username, score }),
+    body: JSON.stringify({ user_id, username, score, difficulty }),
   });
 
   if (!res.ok) {
-    const text = await res.text(); // might be plain error
+    const text = await res.text();
     throw new Error(text || "Failed to submit score");
   }
 
   return await res.json();
+}
+export async function updateGameStats(userId, gameId) {
+  const token = await getAuthToken();
+
+  await fetch(`${API_BASE_URL}/update_game_stats`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ user_id: userId, game_id: gameId }),
+  });
+}
+
+export async function getUserGameStats(userId) {
+  const token = await getAuthToken();
+  const res = await fetch(`${API_BASE_URL}/get_user_game_stats/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch game stats");
+  return await res.json(); // { pattern1: 5, written_easy: 3, ... }
+}
+export async function getUserMedals(userId) {
+  const response = await fetch(`${API_BASE_URL}/users/${userId}/medals`);
+  if (!response.ok) throw new Error("Failed to fetch medals");
+  return response.json();
 }

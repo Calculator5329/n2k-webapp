@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { updateProfilePic } from "../utils/api";
+import {
+  updateProfilePic,
+  getUserMedals,
+  getUserGameStats,
+  getUserInfo,
+} from "../utils/api";
 import "../styles/ProfilePage.css";
 
 const presetAvatars = Array.from(
@@ -12,6 +17,88 @@ function ProfilePage() {
   const { user, refreshUserInfo } = useAuth();
   const [selected, setSelected] = useState(null);
   const [message, setMessage] = useState("");
+  const [medals, setMedals] = useState([]);
+  const [gameStats, setGameStats] = useState({});
+  const [favoriteGame, setFavoriteGame] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [medals, stats] = await Promise.all([
+          getUserMedals(user.firebase.uid),
+          getUserGameStats(user.firebase.uid),
+        ]);
+        setMedals(medals);
+        setGameStats(stats);
+
+        const maxGame = Object.entries(stats).sort((a, b) => b[1] - a[1])[0];
+        if (maxGame) setFavoriteGame(maxGame[0]);
+      } catch (err) {
+        console.error("❌ Error fetching profile data:", err);
+      }
+    }
+
+    if (user?.firebase?.uid) {
+      fetchData();
+    }
+  }, [user]);
+
+  function formatGameName(gameId) {
+    // Remove trailing difficulty suffix from gameId if present
+    const cleanedId = gameId.replace(
+      /_easy|_medium|_hard|_very_hard|_impossible/,
+      ""
+    );
+
+    if (cleanedId.startsWith("pattern")) {
+      const num = cleanedId.replace("pattern", "");
+      // const diffLetter = (difficulty || "medium")[0].toUpperCase(); // e.g. Easy → E
+      return `${num}s Board`;
+    }
+
+    if (cleanedId.startsWith("written")) {
+      //console.log(cleanedId);
+      //console.log(difficulty);
+      /*const labels = {
+        easy: "(E)",
+        medium: "(M)",
+        hard: "(H)",
+        very_hard: "(VH)",
+        impossible: "(I)",
+      };
+      const label = labels[difficulty] || "";*/
+      return `Written Problems`;
+    }
+
+    return cleanedId; // fallback
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [medals, stats, userInfo] = await Promise.all([
+          getUserMedals(user.firebase.uid),
+          getUserGameStats(user.firebase.uid),
+          getUserInfo(),
+        ]);
+
+        setMedals(medals);
+        setGameStats(stats);
+
+        const maxGame = Object.entries(stats).sort((a, b) => b[1] - a[1])[0];
+        if (maxGame) setFavoriteGame(maxGame[0]);
+
+        // Update user object with new createdAt
+        user.createdAt = userInfo.created_at;
+      } catch (err) {
+        console.error("❌ Error fetching profile data:", err);
+      }
+    }
+
+    if (user?.firebase?.uid) {
+      fetchData();
+    }
+  }, [user]);
 
   const handleSubmit = async () => {
     try {
@@ -47,38 +134,58 @@ function ProfilePage() {
         {message && <p>{message}</p>}
       </div>
 
-      <div className="info-container">
-        <div className="username-header">
-          <img
-            src={`/avatars/${user?.profilePic}`}
-            alt="Current Avatar"
-            style={{
-              height: "80px",
-              width: "80px",
-              borderRadius: "50%",
-              marginTop: "0rem",
-            }}
-          />
-          <h1 style={{ margin: 0, textAlign: "center" }}>
-            {user?.username || "Guest"}
-          </h1>
+      <div className="info-and-medals-container">
+        <div className="info-container">
+          <div className="username-header">
+            <img
+              src={`/avatars/${user?.profilePic}`}
+              alt="Current Avatar"
+              style={{ height: "80px", width: "80px", borderRadius: "50%" }}
+            />
+            <h1 style={{ margin: 0 }}>{user?.username || "Guest"}</h1>
+          </div>
+          <table className="user-info-table">
+            <tbody>
+              <tr>
+                <td className="label">Email:</td>
+                <td>{user?.firebase?.email || "N/A"}</td>
+              </tr>
+              <tr>
+                <td className="label">Favorite:</td>
+                <td>
+                  {favoriteGame
+                    ? formatGameName(favoriteGame)
+                    : "No games played yet"}
+                </td>
+              </tr>
+              <tr>
+                <td className="label">Joined:</td>
+                <td>
+                  {user?.createdAt
+                    ? new Date(user.createdAt).toLocaleDateString()
+                    : "N/A"}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <table className="user-info-table">
-          <tbody>
-            <tr>
-              <td className="label">Email:</td>
-              <td>{user?.firebase?.email || "N/A"}</td>
-            </tr>
-            <tr>
-              <td className="label">Avatar:</td>
-              <td>{user?.profilePic || "Not set"}</td>
-            </tr>
-            <tr>
-              <td className="label">Bio:</td>
-              <td>Coming soon...</td>
-            </tr>
-          </tbody>
-        </table>
+
+        <div className="medals-container">
+          <h2>Your Medals 🏅</h2>
+          <div className="medal-grid">
+            {medals.map((medal, i) => {
+              const imageSrc = "/trophies/trophy" + medal.rank + ".png";
+              return (
+                <div className="medal-item" key={i}>
+                  <img src={imageSrc} className="medal-image" alt="Game" />
+                  <div className="medal-label">
+                    {formatGameName(medal.game_id, medal.difficulty)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );

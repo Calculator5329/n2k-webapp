@@ -1,8 +1,9 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import "../styles/MainPage.css";
 import GameCard from "../components/GameCard";
+import { getUserGameStats } from "../utils/api";
 
 function MainPage() {
   const { user, loading } = useAuth();
@@ -21,7 +22,9 @@ function MainPage() {
 }
 
 function LoggedInLayout() {
+  const [gameUsage, setGameUsage] = useState({});
   const [showMore, setShowMore] = useState(false);
+  const { user } = useAuth();
 
   const allGames = [
     {
@@ -124,22 +127,18 @@ function LoggedInLayout() {
     },
   ];
 
-  const gameUsage = {
-    pattern2: 5,
-    pattern1: 8,
-    pattern3: 2,
-    written_easy: 7,
-    written_medium: 1,
-    written_hard: 3,
-    pattern4: 4,
-    pattern5: 6,
-    pattern6: 1,
-    pattern7: 9,
-    pattern8: 3,
-    pattern9: 5,
-    written_very_hard: 2,
-    written_impossible: 1,
-  };
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const stats = await getUserGameStats(user.firebase.uid);
+        setGameUsage(stats);
+      } catch (err) {
+        console.error("Failed to fetch user game stats", err);
+      }
+    }
+
+    fetchStats();
+  }, []);
 
   const sortedGames = [...allGames].sort((a, b) => {
     const aCount = gameUsage[a.id] || 0;

@@ -20,6 +20,9 @@ function Header() {
         <Link to="/howtoplay" className="nav-link">
           How to Play
         </Link>
+        <Link to="/leaderboard" className="nav-link">
+          Leaderboard
+        </Link>
       </div>
       <div className="nav-right">
         <Link to={user ? "/signout" : "/login"} className="nav-link">

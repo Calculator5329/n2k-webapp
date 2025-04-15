@@ -5,6 +5,8 @@ import {
 } from "../utils/writtenProblems";
 import "../styles/WrittenProblemsPage.css";
 import { useSearchParams } from "react-router-dom";
+import Scoreboard from "../components/Scoreboard";
+import { useAuth } from "../contexts/AuthContext";
 
 const DIFFICULTIES = ["easy", "medium", "hard", "very hard", "impossible"];
 
@@ -22,6 +24,14 @@ function WrittenProblemsPage() {
   const yRef = useRef(null);
   const zRef = useRef(null);
   const [searchParams] = useSearchParams();
+
+  const [showScoreboard, setShowScoreboard] = useState(true);
+
+  const { user } = useAuth();
+  const userId = user?.firebase?.uid || "";
+  const username = user?.username || "Unknown";
+
+  const gameId = `written_${difficulty?.toLowerCase()}`;
 
   const capitalizeWords = (str) =>
     str.replace(/\b\w/g, (char) => char.toUpperCase());
@@ -93,6 +103,7 @@ function WrittenProblemsPage() {
 
   const reset = () => {
     setPhase("select");
+    setShowScoreboard(true);
     setDifficulty(null);
     setProblems([]);
     setCurrent(0);
@@ -199,16 +210,29 @@ function WrittenProblemsPage() {
           </>
         )}
 
-        {phase === "done" && (
-          <>
-            <h2>🎉 Round Complete!</h2>
-            <p>
-              Total Time:{" "}
-              <strong>{((endTime - startTime) / 1000).toFixed(2)}s</strong>
-            </p>
-            <button onClick={reset}>Play Again</button>
-          </>
-        )}
+        {phase === "done" &&
+          (console.log("✅ Done phase reached"),
+          (
+            <>
+              <h2>🎉 Round Complete!</h2>
+              <p>
+                Total Time:{" "}
+                <strong>{((endTime - startTime) / 1000).toFixed(2)}s</strong>
+              </p>
+
+              <button onClick={reset}>Play Again</button>
+
+              <Scoreboard
+                gameId={gameId}
+                difficulty={difficulty}
+                userScore={Math.round((60 * 1e6) / (endTime - startTime))} // You can tweak score formula
+                username={username}
+                userId={userId}
+                visible={showScoreboard}
+                onClose={() => setShowScoreboard(false)}
+              />
+            </>
+          ))}
       </div>
     </div>
   );

@@ -6,6 +6,9 @@ import { evaluateInput } from "../utils/writtenFuncs";
 import { generatePatternBoard } from "../utils/boardFuncs";
 import "../styles/BoardPage.css";
 import { useNavigate } from "react-router-dom";
+import Scoreboard from "../components/Scoreboard";
+import { useAuth } from "../contexts/AuthContext";
+import { updateGameStats } from "../utils/api";
 
 function BoardPage() {
   const navigate = useNavigate();
@@ -13,7 +16,7 @@ function BoardPage() {
   const [boardValues, setBoardValues] = useState([]);
   const [diceTiers, setDiceTiers] = useState({});
   const [selectedDifficulty, setSelectedDifficulty] = useState(null);
-  const [patternNum, setPatternNum] = useState(2);
+  const [patternNum, setPatternNum] = useState(0);
   const [diceNumbers, setDiceNumbers] = useState([0, 0, 0]);
   const [diceString, setDiceString] = useState("X, Y, Z");
   const [beginGame, setBeginGame] = useState(false);
@@ -27,6 +30,12 @@ function BoardPage() {
   const [currentRound, setCurrentRound] = useState(0);
   const [inFullRound, setInFullRound] = useState(false);
   const [buttonText, setButtonText] = useState("Start Round");
+  const [showScoreboard, setShowScoreboard] = useState(false);
+  const { user } = useAuth();
+  const userId = user?.firebase?.uid || "";
+  const username = user?.username || "Unknown";
+  const gameId = `pattern${patternNum}`;
+  const difficulty = selectedDifficulty?.toLowerCase() || "medium";
 
   // ⏱️ Timer
   useEffect(() => {
@@ -167,7 +176,13 @@ function BoardPage() {
       setBeginGame(true);
     } else {
       // Done with 5 games
+      setShowScoreboard(true);
       setButtonText("Play Again");
+      if (userId && gameId) {
+        updateGameStats(userId, gameId).catch((err) =>
+          console.error("Failed to update game stats:", err)
+        );
+      }
     }
   };
 
@@ -239,7 +254,7 @@ function BoardPage() {
                         <td>{s}</td>
                       </tr>
                     ))}
-                    {roundScores.length === 5 && (
+                    {roundScores.length === 3 && (
                       <tr>
                         <td>Avg</td>
                         <td>{averageScore}</td>
@@ -247,6 +262,15 @@ function BoardPage() {
                     )}
                   </tbody>
                 </table>
+                <Scoreboard
+                  gameId={gameId}
+                  difficulty={difficulty}
+                  userScore={averageScore}
+                  username={username}
+                  userId={userId}
+                  visible={showScoreboard}
+                  onClose={() => setShowScoreboard(false)}
+                />
               </div>
             )}
 

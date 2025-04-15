@@ -7,6 +7,7 @@ const MAX_PAGES = 10;
 
 export default function Scoreboard({
   gameId,
+  difficulty = "medium",
   userScore = null,
   username = "",
   userId = "",
@@ -17,6 +18,26 @@ export default function Scoreboard({
   const [currentPage, setCurrentPage] = useState(1);
   const [fadeClass, setFadeClass] = useState("scoreboard-fade");
 
+  // Get top 3 unique usernames (ranked by score)
+  const topUniqueUsers = [];
+  const seenUsernames = new Set();
+
+  for (const entry of scores) {
+    if (!seenUsernames.has(entry.username)) {
+      topUniqueUsers.push(entry.username);
+      seenUsernames.add(entry.username);
+      if (topUniqueUsers.length === 3) break;
+    }
+  }
+
+  const medalMap = {
+    [topUniqueUsers[0]]: "🥇",
+    [topUniqueUsers[1]]: "🥈",
+    [topUniqueUsers[2]]: "🥉",
+  };
+
+  // Track if we already showed the medal for a username
+  const medalGiven = {};
   // Estimate the user's rank even if they're not in the fetched scores
   const estimatedRank =
     userScore !== null
@@ -32,7 +53,10 @@ export default function Scoreboard({
 
     const loadScores = async () => {
       try {
-        const result = await fetchScores(gameId);
+        const result = gameId.startsWith("written_")
+          ? await fetchScores(gameId) // don't include difficulty param
+          : await fetchScores(gameId, difficulty); // only needed for board games
+
         setScores(Array.isArray(result) ? result : []);
       } catch (err) {
         console.error("Failed to fetch scores:", err);
@@ -64,14 +88,22 @@ export default function Scoreboard({
 
   const handleSave = async () => {
     try {
-      const res = await submitScore(gameId, {
+      const payload = {
         user_id: userId,
         username,
         score: userScore,
-      });
+      };
+
+      if (!gameId.startsWith("written_")) {
+        payload.difficulty = difficulty;
+      } else {
+        difficulty = null;
+      }
+
+      const res = await submitScore(gameId, payload);
 
       if (res.success) {
-        const updated = await fetchScores(gameId);
+        const updated = await fetchScores(gameId, difficulty);
         setScores(updated);
       } else {
         alert("Score not high enough to be saved.");
@@ -96,18 +128,34 @@ export default function Scoreboard({
               </tr>
             </thead>
             <tbody>
-              {displayedScores.map((entry, index) => (
-                <tr
-                  key={startIndex + index}
-                  className={
-                    entry.username === username ? "scoreboard-highlight" : ""
-                  }
-                >
-                  <td>{startIndex + index + 1}</td>
-                  <td>{entry.username}</td>
-                  <td>{entry.score}</td>
-                </tr>
-              ))}
+              {displayedScores.map((entry, index) => {
+                const rank = startIndex + index + 1;
+                let displayRank = rank;
+
+                // Only show medal if it's the user's top score
+                if (medalMap[entry.username] && !medalGiven[entry.username]) {
+                  displayRank = medalMap[entry.username];
+                  medalGiven[entry.username] = true;
+                }
+
+                return (
+                  <tr
+                    key={rank}
+                    className={
+                      entry.username === username ? "scoreboard-highlight" : ""
+                    }
+                  >
+                    <td>
+                      {typeof displayRank === "number"
+                        ? `\u00A0${displayRank}`
+                        : displayRank}
+                    </td>
+
+                    <td>{entry.username}</td>
+                    <td>{entry.score}</td>
+                  </tr>
+                );
+              })}
 
               {!isScoreAlreadySaved && userScore !== null && (
                 <>
@@ -116,7 +164,6 @@ export default function Scoreboard({
                   </tr>
                   <tr className="scoreboard-highlight">
                     <td>{showEstimated ? estimatedRank : "???"}</td>
-
                     <td>{username || "You"}</td>
                     <td>{userScore}</td>
                   </tr>

@@ -23,6 +23,10 @@
   padding: 2rem;
   margin-left: 5rem;
 }
+.info-and-medals-container {
+  height: 732px;
+  margin-bottom: 2rem;
+}
 
 .avatar-container {
   display: flex;
@@ -33,6 +37,7 @@
   width: fit-content;
   border-radius: 12px;
   padding: 1rem;
+  height: 700px;
 }
 
 .avatar-grid {
@@ -117,4 +122,59 @@ p {
   color: #fffeb3;
   width: 30%;
   font-size: 1.25rem;
+}
+.medals-container {
+  margin-top: 1rem;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  text-align: center;
+  background-color: rgb(56, 56, 56);
+  width: calc(100% - 8rem);
+  border-radius: 12px;
+  padding: 1.5rem;
+  padding-top: 0.5rem;
+  margin-left: 5rem;
+}
+
+.medal-item {
+  background-color: #333;
+  border: 1px solid #555;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-weight: bold;
+}
+.medal-section {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.medal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+  gap: 1rem;
+  margin-top: 1rem;
+  max-height: 236px;
+  overflow-y: auto;
+  padding-right: 0.5rem; /* so the scrollbar doesn't overlap content */
+}
+
+.medal-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90px;
+}
+
+.medal-image {
+  width: 50x;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
+
+.medal-label {
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  color: #ddd;
 }

@@ -11,6 +11,7 @@ import WrittenProblemsPage from "./pages/WrittenProblemsPage";
 import BoardPage from "./pages/BoardPage";
 import HowToPage from "./pages/HowToPage";
 import TestPage from "./pages/testPage";
+import LeaderboardPage from "./pages/LeaderboardPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/play-written" element={<WrittenProblemsPage />} />
         <Route path="/howtoplay" element={<HowToPage />} />
         <Route path="/test" element={<TestPage />} />
+        <Route path="/leaderboard" element={<LeaderboardPage />} />
         {/* Add more routes later */}
       </Routes>
     </div>
