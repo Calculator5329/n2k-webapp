@@ -1,6 +1,6 @@
 import { auth } from "../firebase";
 
-export const API_BASE_URL = "https://n2k-backend-production.up.railway.app/";
+export const API_BASE_URL = "https://n2k-backend-production.up.railway.app";
 
 async function getAuthToken() {
   const user = auth.currentUser;

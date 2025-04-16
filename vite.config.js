@@ -7,7 +7,7 @@ export default defineConfig({
   base: "/n2k-webapp",
   server: {
     proxy: {
-      "/api": "https://n2k-backend-production.up.railway.app/",
+      "/api": "https://n2k-backend-production.up.railway.app",
     },
   },
 });
