@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Scoreboard from "../components/Scoreboard";
 import { useAuth } from "../contexts/AuthContext";
 import { updateGameStats } from "../utils/api";
+import { Navigate } from "react-router-dom";
 
 function BoardPage() {
   const navigate = useNavigate();
@@ -83,6 +84,10 @@ function BoardPage() {
         console.error("Failed to load dice config:", err);
       });
   }, []);
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
 
   // 🧮 Submitting Input
   const handleInputSubmit = (inputObj) => {
@@ -217,6 +222,12 @@ function BoardPage() {
   return (
     <div className="app-container">
       <div className="horizontal-container">
+        {window.innerWidth < 1000 && (
+          <p style={{ color: "#aaa", fontSize: "0.8rem", marginTop: "1rem" }}>
+            Playing board slam minigames is disabled on mobile devices. Please
+            play using the "practice mode" or use a computer.
+          </p>
+        )}
         <div className="options-and-timer-container">
           <div className="options-container">
             <h1>Options</h1>

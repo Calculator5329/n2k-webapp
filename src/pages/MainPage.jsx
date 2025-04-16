@@ -182,6 +182,10 @@ function GuestLayout() {
           math games. Feel free to try them out as a guest, or sign up to save
           your scores and track your progress.
         </p>
+        <p>
+          <strong>Note:</strong> You can practice on a phone, but the board slam
+          games are disabled.
+        </p>
       </div>
       <Link to="/howtoplay" className="btn-learn btn-play">
         Learn How to Play

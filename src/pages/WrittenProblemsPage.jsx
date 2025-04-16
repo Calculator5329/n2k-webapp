@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   generateEquationByDifficulty,
   checkAnswer,
@@ -7,6 +7,7 @@ import "../styles/WrittenProblemsPage.css";
 import { useSearchParams } from "react-router-dom";
 import Scoreboard from "../components/Scoreboard";
 import { useAuth } from "../contexts/AuthContext";
+import { updateGameStats } from "../utils/api";
 
 const DIFFICULTIES = ["easy", "medium", "hard", "very hard", "impossible"];
 
@@ -124,6 +125,14 @@ function WrittenProblemsPage() {
     </>
   );
 
+  useEffect(() => {
+    if (phase === "done" && userId && gameId) {
+      updateGameStats(userId, gameId).catch((err) =>
+        console.error("Failed to update written problem stats:", err)
+      );
+    }
+  }, [phase]);
+
   return (
     <div className="main-container">
       <div className="app-container written-page">
@@ -221,6 +230,14 @@ function WrittenProblemsPage() {
               </p>
 
               <button onClick={reset}>Play Again</button>
+              {!user && (
+                <p style={{ color: "#ccc", marginTop: "1rem" }}>
+                  Want to save your scores and earn medals?{" "}
+                  <a href="/signup" className="login-link">
+                    Create an account
+                  </a>
+                </p>
+              )}
 
               <Scoreboard
                 gameId={gameId}

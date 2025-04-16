@@ -6,7 +6,8 @@ import SmartInputs from "../components/SmartInputs";
 import { generateRandomBoard, generatePatternBoard } from "../utils/boardFuncs";
 import { useSearchParams } from "react-router-dom";
 import Header from "../components/Header";
-import "../App.css";
+import "../styles/GamePage.css";
+import "../app.css";
 
 function GamePage() {
   const [selectedSquares, setSelectedSquares] = useState(new Set());
@@ -159,7 +160,7 @@ function GamePage() {
     }
 
     setBeginGame(!beginGame);
-    setButtonText(beginGame ? "Begin Round" : "End Round");
+    setButtonText(beginGame ? "Start Game" : "End Game");
   };
 
   // Add this new helper function
@@ -197,7 +198,7 @@ function GamePage() {
                 Submit
               </button>
               <h2>- Pattern Board</h2>
-              <label htmlFor="patternSlider">Count by: {patternNum}s</label>
+              <label htmlFor="highestNumSlider">Count by: {patternNum}s</label>
               <input
                 type="range"
                 id="highestNumSlider"

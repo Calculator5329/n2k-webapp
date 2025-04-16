@@ -68,3 +68,28 @@
   color: #aaa;
   margin-left: 1rem;
 }
+@media (min-width: 2000px) {
+  .game-card {
+    width: 600px;
+    height: 450px;
+    padding: 1rem;
+  }
+  .game-image {
+    height: 260px;
+  }
+}
+@media (max-width: 1350px) {
+  .game-card {
+    width: 45%;
+  }
+}
+@media (max-width: 925px) {
+  .game-card {
+    width: 80%;
+  }
+}
+@media (max-width: 425px) {
+  .game-card {
+    width: 95%;
+  }
+}

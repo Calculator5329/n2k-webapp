@@ -25,3 +25,9 @@
   border-color: red;
   background-color: #ffe6e6;
 }
+@media screen and (max-width: 1200px) {
+  .smart-input {
+    width: 70px;
+    font-size: 18px;
+  }
+}

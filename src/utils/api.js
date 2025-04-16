@@ -1,6 +1,6 @@
 import { auth } from "../firebase";
 
-const API_BASE_URL = "http://192.168.1.54:8000";
+export const API_BASE_URL = "http://localhost:8000";
 
 async function getAuthToken() {
   const user = auth.currentUser;

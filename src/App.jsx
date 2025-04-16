@@ -10,8 +10,8 @@ import ProfilePage from "./pages/ProfilePage";
 import WrittenProblemsPage from "./pages/WrittenProblemsPage";
 import BoardPage from "./pages/BoardPage";
 import HowToPage from "./pages/HowToPage";
-import TestPage from "./pages/testPage";
 import LeaderboardPage from "./pages/LeaderboardPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 function App() {
   return (
@@ -27,8 +27,9 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/play-written" element={<WrittenProblemsPage />} />
         <Route path="/howtoplay" element={<HowToPage />} />
-        <Route path="/test" element={<TestPage />} />
         <Route path="/leaderboard" element={<LeaderboardPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
         {/* Add more routes later */}
       </Routes>
     </div>

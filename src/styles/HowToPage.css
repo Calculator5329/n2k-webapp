@@ -72,3 +72,9 @@
   margin: 5rem 0;
   border: none;
 }
+@media screen and (max-width: 765px) {
+  .howto-container {
+    width: 85%;
+    padding: 1rem;
+  }
+}

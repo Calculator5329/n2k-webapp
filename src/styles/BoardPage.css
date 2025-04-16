@@ -69,3 +69,8 @@
   outline: none;
   box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.4); /* optional accessibility ring */
 }
+@media screen and (max-width: 1000px) {
+  .start-game-button {
+    font-size: 1rem;
+  }
+}

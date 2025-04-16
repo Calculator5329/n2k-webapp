@@ -5,6 +5,7 @@ import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../utils/api"; // ✅ Use your API wrapper
 import "../styles/SignupPage.css";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 function SignupPage() {
   const [username, setUsername] = useState("");
@@ -13,6 +14,22 @@ function SignupPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const handleGoogleSignup = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      const name = user.displayName?.trim() || user.email.split("@")[0];
+      await createUser(name, user.email);
+
+      navigate("/profile");
+    } catch (err) {
+      console.error("❌ Google signup error:", err.message);
+      setError(err.message);
+    }
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -89,6 +106,13 @@ function SignupPage() {
         </form>
 
         {error && <p style={{ color: "red", marginTop: "1rem" }}>{error}</p>}
+
+        <button
+          onClick={handleGoogleSignup}
+          className="signup-button google-btn"
+        >
+          Sign Up with Google
+        </button>
 
         <p className="login-redirect-text">
           Already have an account?{" "}

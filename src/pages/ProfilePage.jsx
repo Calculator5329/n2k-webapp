@@ -7,6 +7,7 @@ import {
   getUserInfo,
 } from "../utils/api";
 import "../styles/ProfilePage.css";
+import { Navigate } from "react-router-dom";
 
 const presetAvatars = Array.from(
   { length: 20 },
@@ -18,8 +19,76 @@ function ProfilePage() {
   const [selected, setSelected] = useState(null);
   const [message, setMessage] = useState("");
   const [medals, setMedals] = useState([]);
-  const [gameStats, setGameStats] = useState({});
+  //const [gameStats, setGameStats] = useState({});
   const [favoriteGame, setFavoriteGame] = useState(null);
+  const DIFFICULTY_COLORS = {
+    easy: "#4CAF50", // green
+    medium: "#2196F3", // blue
+    hard: "#FF3C00", // orange
+    very_hard: "#FF0000", // red
+    impossible: "#9C27B0", // purple
+  };
+  const [newUsername, setNewUsername] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState("");
+  const [editingUsername, setEditingUsername] = useState(false);
+
+  const handleUsernameChange = async () => {
+    setEditingUsername(false);
+
+    const trimmed = newUsername.trim();
+
+    if (!trimmed) {
+      setUsernameMessage("❌ Username cannot be empty.");
+      return;
+    }
+
+    if (trimmed === user?.username) {
+      setUsernameMessage("✅ No Changes.");
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9_]{3,15}$/.test(trimmed)) {
+      setUsernameMessage("❌ 3–15 letters, numbers, or underscores only.");
+      return;
+    }
+
+    try {
+      const token = await user.firebase.getIdToken();
+      const res = await fetch("/api/change_username", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ username: trimmed }),
+      });
+
+      if (res.status === 409) {
+        setUsernameMessage("❌ Username already taken.");
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error("Unexpected error");
+      }
+
+      await refreshUserInfo(user.firebase);
+      setUsernameMessage("✅ Username updated!");
+    } catch (err) {
+      console.error("❌ Error updating username:", err.message);
+      setUsernameMessage("❌ Failed to update username.");
+    }
+  };
+
+  useEffect(() => {
+    if (usernameMessage) {
+      const timer = setTimeout(() => {
+        setUsernameMessage("");
+      }, 3000); // 3 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [usernameMessage]);
 
   useEffect(() => {
     async function fetchData() {
@@ -29,7 +98,7 @@ function ProfilePage() {
           getUserGameStats(user.firebase.uid),
         ]);
         setMedals(medals);
-        setGameStats(stats);
+        //setGameStats(stats);
 
         const maxGame = Object.entries(stats).sort((a, b) => b[1] - a[1])[0];
         if (maxGame) setFavoriteGame(maxGame[0]);
@@ -46,7 +115,7 @@ function ProfilePage() {
   function formatGameName(gameId) {
     // Remove trailing difficulty suffix from gameId if present
     const cleanedId = gameId.replace(
-      /_easy|_medium|_hard|_very_hard|_impossible/,
+      /_easy|_medium|_hard|_very_hard|_very hard|_impossible/,
       ""
     );
 
@@ -83,7 +152,7 @@ function ProfilePage() {
         ]);
 
         setMedals(medals);
-        setGameStats(stats);
+        //setGameStats(stats);
 
         const maxGame = Object.entries(stats).sort((a, b) => b[1] - a[1])[0];
         if (maxGame) setFavoriteGame(maxGame[0]);
@@ -99,6 +168,8 @@ function ProfilePage() {
       fetchData();
     }
   }, [user]);
+
+  if (!user) return <Navigate to="/login" />;
 
   const handleSubmit = async () => {
     try {
@@ -137,12 +208,37 @@ function ProfilePage() {
       <div className="info-and-medals-container">
         <div className="info-container">
           <div className="username-header">
+            {usernameMessage && (
+              <div className="username-toast">{usernameMessage}</div>
+            )}
             <img
               src={`/avatars/${user?.profilePic}`}
               alt="Current Avatar"
               style={{ height: "80px", width: "80px", borderRadius: "50%" }}
             />
-            <h1 style={{ margin: 0 }}>{user?.username || "Guest"}</h1>
+            {editingUsername ? (
+              <input
+                autoFocus
+                className="username-input"
+                value={newUsername}
+                onChange={(e) => setNewUsername(e.target.value)}
+                onBlur={handleUsernameChange}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleUsernameChange();
+                }}
+              />
+            ) : (
+              <h1
+                style={{ margin: 0, cursor: "pointer" }}
+                onClick={() => {
+                  setEditingUsername(true);
+                  setNewUsername(user?.username || "");
+                }}
+                title="Click to edit"
+              >
+                {user?.username || "Guest"}
+              </h1>
+            )}
           </div>
           <table className="user-info-table">
             <tbody>
@@ -175,11 +271,26 @@ function ProfilePage() {
           <div className="medal-grid">
             {medals.map((medal, i) => {
               const imageSrc = "/trophies/trophy" + medal.rank + ".png";
+
+              const difficultyMatch = medal.game_id.match(
+                /_(easy|medium|hard|very_hard|impossible)(?:_|$)/
+              );
+              const difficulty = difficultyMatch?.[1]; // may be undefined
+              const borderColor = DIFFICULTY_COLORS[difficulty] || "#a00000"; // fallback
+
               return (
                 <div className="medal-item" key={i}>
-                  <img src={imageSrc} className="medal-image" alt="Game" />
+                  <img
+                    src={imageSrc}
+                    className="medal-image"
+                    alt="Game"
+                    style={{
+                      border: `2px solid ${borderColor}`,
+                      borderRadius: "12px",
+                    }}
+                  />
                   <div className="medal-label">
-                    {formatGameName(medal.game_id, medal.difficulty)}
+                    {formatGameName(medal.game_id)}
                   </div>
                 </div>
               );

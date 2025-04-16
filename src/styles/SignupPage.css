@@ -51,3 +51,11 @@
   text-decoration: none;
   font-weight: bold;
 }
+.google-btn {
+  background-color: #4285f4;
+  color: white;
+  margin-top: 1rem;
+}
+.google-btn:hover {
+  background-color: #204d96;
+}

@@ -38,3 +38,39 @@
   margin-top: 5px;
   object-fit: cover;
 }
+@media (max-width: 768px) {
+  .site-header {
+    padding: 0px 10px;
+  }
+  .nav-link {
+    font-size: 12px;
+  }
+  .profile-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .nav-left,
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+@media (max-width: 350px) {
+  .site-header {
+    padding: 0px 2px;
+  }
+  .nav-link {
+    font-size: 10px;
+  }
+  .profile-icon {
+    width: 32px;
+    height: 32px;
+  }
+  .nav-left,
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}

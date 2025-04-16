@@ -13,13 +13,13 @@
   border-radius: 5px;
   border: 3px solid #000000;
   box-shadow: 0 2px 8px rgba(36, 124, 255, 0.75);
-  width: 80rem;
+  width: 70%;
   padding: 1rem;
   margin: 4.5rem auto;
   position: relative;
   z-index: 1;
-  height: auto !important; /* ✅ This is good */
-  max-width: 100%; /* ✅ Optional for responsiveness */
+  height: auto !important;
+  max-width: 100%;
 }
 
 .main-content {
@@ -207,4 +207,67 @@
 
 .intro-section h1 {
   margin-top: 0.5rem;
+}
+
+@media (min-width: 2000px) {
+  .app-container-mp {
+    width: 85%;
+    padding: 3rem;
+  }
+}
+
+@media (max-width: 1350px) {
+  .app-container-mp {
+    width: 90%;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .btn-learn {
+    width: 60%;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .btn-learn {
+    width: 90%;
+    font-size: 1.25rem;
+  }
+
+  .game-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .game-section p {
+    font-size: 1rem;
+  }
+
+  .intro-section {
+    padding-left: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-play {
+    width: 90%;
+  }
+
+  .btn-learn {
+    width: 80%;
+  }
+
+  .app-container-mp {
+    width: 85%;
+    margin: 3.5rem auto;
+  }
+
+  .game-section {
+    padding: 0.75rem;
+  }
+
+  .learn-block {
+    padding: 0.75rem 1rem;
+  }
 }

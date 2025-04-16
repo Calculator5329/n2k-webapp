@@ -7,10 +7,9 @@
   padding: 2rem;
   color: #e0e0e0;
   background-color: #282c34;
-  min-height: 100vh;
+  height: calc(100vh - 124px);
   margin-top: 60px;
 }
-
 .profile-page h1 {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
@@ -18,14 +17,15 @@
 
 .info-container {
   background-color: rgb(56, 56, 56);
-  width: fit-content;
+  width: calc(600px - 8rem);
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1.5rem;
   margin-left: 5rem;
 }
 .info-and-medals-container {
   height: 732px;
   margin-bottom: 2rem;
+  width: 600px;
 }
 
 .avatar-container {
@@ -91,11 +91,16 @@ p {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
   background-color: #1f1f1f;
   border-radius: 12px;
   padding: 0.75rem 1.25rem;
 }
+
+.username-header h1 {
+  font-size: 1.5rem;
+}
+
 .user-info-table {
   width: 100%;
   border-collapse: collapse;
@@ -142,6 +147,10 @@ p {
   padding: 0.5rem 1rem;
   border-radius: 5px;
   font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 66px;
 }
 .medal-section {
   margin-top: 2rem;
@@ -150,7 +159,7 @@ p {
 
 .medal-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 items per row */
+  grid-template-columns: repeat(4, 1fr); /* 3 items per row */
   gap: 1rem;
   margin-top: 1rem;
   max-height: 236px;
@@ -158,23 +167,66 @@ p {
   padding-right: 0.5rem; /* so the scrollbar doesn't overlap content */
 }
 
-.medal-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 90px;
-}
-
 .medal-image {
-  width: 50x;
-  height: 70px;
+  width: 54x;
+  height: 75px;
   border-radius: 10px;
   object-fit: cover;
-  border: 2px solid #ccc;
+  border: 2px solid #ffffff;
 }
 
 .medal-label {
   font-size: 0.85rem;
   margin-top: 0.25rem;
   color: #ddd;
+}
+
+.username-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 2px solid #888;
+  font-size: 1.25rem;
+  background-color: #2e2e2e;
+  color: #fff;
+  transition: border-color 0.2s ease;
+  font-weight: bold;
+}
+
+@media screen and (min-height: 850px) {
+}
+.username-toast {
+  position: absolute;
+  margin-top: 3.5rem;
+  margin-left: 3rem;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1e1e1e;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  opacity: 0;
+  animation: fadeinout 3s ease forwards;
+}
+
+@keyframes fadeinout {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
 }
