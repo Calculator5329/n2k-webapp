@@ -30,7 +30,9 @@ function Header() {
         </Link>
         <Link to="/profile" className="profile-link">
           <img
-            src={`/avatars/${user?.profilePic || "profile.png"}`}
+            src={`${import.meta.env.BASE_URL}/avatars/${
+              user?.profilePic || "profile.png"
+            }`}
             alt="Profile"
             className="profile-icon"
           />

@@ -190,7 +190,7 @@ function ProfilePage() {
           {presetAvatars.map((avatar) => (
             <img
               key={avatar}
-              src={`/avatars/${avatar}`}
+              src={`${import.meta.env.BASE_URL}/avatars/${avatar}`}
               alt={avatar}
               className={`avatar-option ${
                 selected === avatar ? "selected" : ""
@@ -212,7 +212,7 @@ function ProfilePage() {
               <div className="username-toast">{usernameMessage}</div>
             )}
             <img
-              src={`/avatars/${user?.profilePic}`}
+              src={`${import.meta.env.BASE_URL}/avatars/${user?.profilePic}`}
               alt="Current Avatar"
               style={{ height: "80px", width: "80px", borderRadius: "50%" }}
             />
@@ -270,7 +270,11 @@ function ProfilePage() {
           <h2>Your Medals 🏅</h2>
           <div className="medal-grid">
             {medals.map((medal, i) => {
-              const imageSrc = "/trophies/trophy" + medal.rank + ".png";
+              const imageSrc =
+                `${import.meta.env.BASE_URL}` +
+                "/trophies/trophy" +
+                medal.rank +
+                ".png";
 
               const difficultyMatch = medal.game_id.match(
                 /_(easy|medium|hard|very_hard|impossible)(?:_|$)/

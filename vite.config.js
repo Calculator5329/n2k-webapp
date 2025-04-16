@@ -4,10 +4,10 @@ import react from "@vitejs/plugin-react";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: "/",
+  base: "/n2k-webapp",
   server: {
     proxy: {
-      "/api": "http://localhost:8000",
+      "/api": "https://n2k-backend-production.up.railway.app/",
     },
   },
 });
