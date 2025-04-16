@@ -139,6 +139,7 @@ p {
   padding: 1.5rem;
   padding-top: 0.5rem;
   margin-left: 5rem;
+  height: calc(376px - 3rem);
 }
 
 .medal-item {
@@ -193,8 +194,77 @@ p {
   font-weight: bold;
 }
 
-@media screen and (min-height: 850px) {
+@media screen and (max-width: 1440px) {
+  .avatar-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin: auto;
+  }
+  .avatar-container h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .avatar-option {
+    width: 75px;
+    height: 75px;
+  }
+  .avatar-grid > :nth-child(n + 19) {
+    display: none;
+  }
 }
+
+@media (max-width: 925px) {
+  .avatar-container {
+    display: none;
+  }
+}
+
+@media (max-width: 775px) {
+  .info-and-medals-container {
+    width: calc(100% - 2rem) !important;
+  }
+  .user-info-table td {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .username-header h1 {
+    font-size: 1rem;
+  }
+  .username-header img {
+    height: 40px !important;
+    width: 40px !important;
+  }
+  .user-info-table .label {
+    font-size: 0.75rem;
+  }
+  .info-container {
+    width: calc(100% - 8rem) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-page {
+    padding: 2rem 0.5rem;
+  }
+  .info-and-medals-container {
+    width: calc(100%) !important;
+  }
+  .info-container {
+    width: calc(100% - 4rem) !important;
+  }
+  .medals-container {
+    width: calc(100% - 4rem) !important;
+  }
+  .info-container {
+    margin: 0 0.5rem;
+  }
+  .medals-container {
+    margin: 2rem 0rem 0.5rem 0.5rem;
+  }
+}
+
 .username-toast {
   position: absolute;
   margin-top: 3.5rem;

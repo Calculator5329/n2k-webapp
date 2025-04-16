@@ -18,6 +18,13 @@
   object-fit: contain;
   padding-top: 1rem;
 }
+.game-image-written {
+  width: 100%;
+  height: auto;
+  height: 192px;
+  object-fit: contain;
+  padding-top: 1rem;
+}
 
 .game-info {
   padding: 1rem;

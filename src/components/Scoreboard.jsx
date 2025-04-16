@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchScores, submitScore } from "../utils/api";
+import { fetchScores, submitScore, getUserInfo } from "../utils/api";
 import "../styles/Scoreboard.css";
 
 const SCORES_PER_PAGE = 10;
@@ -17,54 +17,56 @@ export default function Scoreboard({
   const [scores, setScores] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [fadeClass, setFadeClass] = useState("scoreboard-fade");
+  const [currentUserPic, setCurrentUserPic] = useState("profile.png");
 
-  // Get top 3 unique usernames (ranked by score)
+  // Top 3 unique for medals
   const topUniqueUsers = [];
-  const seenUsernames = new Set();
-
-  for (const entry of scores) {
-    if (!seenUsernames.has(entry.username)) {
-      topUniqueUsers.push(entry.username);
-      seenUsernames.add(entry.username);
+  const seen = new Set();
+  for (const e of scores) {
+    if (!seen.has(e.username)) {
+      topUniqueUsers.push(e.username);
+      seen.add(e.username);
       if (topUniqueUsers.length === 3) break;
     }
   }
-
   const medalMap = {
     [topUniqueUsers[0]]: "🥇",
     [topUniqueUsers[1]]: "🥈",
     [topUniqueUsers[2]]: "🥉",
   };
-
-  // Track if we already showed the medal for a username
   const medalGiven = {};
-  // Estimate the user's rank even if they're not in the fetched scores
+
+  // Estimated rank
   const estimatedRank =
     userScore !== null
       ? [...scores]
           .sort((a, b) => b.score - a.score)
           .findIndex((s) => userScore >= s.score) + 1
       : null;
-
   const showEstimated = estimatedRank > 0 && estimatedRank <= 100;
 
+  // Load scores
   useEffect(() => {
     if (!visible) return;
-
-    const loadScores = async () => {
+    (async () => {
       try {
         const result = gameId.startsWith("written_")
-          ? await fetchScores(gameId) // don't include difficulty param
-          : await fetchScores(gameId, difficulty); // only needed for board games
-
+          ? await fetchScores(gameId)
+          : await fetchScores(gameId, difficulty);
         setScores(Array.isArray(result) ? result : []);
       } catch (err) {
-        console.error("Failed to fetch scores:", err);
+        console.error(err);
       }
-    };
+    })();
+  }, [visible, gameId, difficulty]);
 
-    loadScores();
-  }, [visible, gameId]);
+  // Load user avatar
+  useEffect(() => {
+    if (!visible) return;
+    getUserInfo()
+      .then((data) => data.profile_pic && setCurrentUserPic(data.profile_pic))
+      .catch(() => {});
+  }, [visible]);
 
   useEffect(() => {
     setFadeClass("scoreboard-fade");
@@ -78,38 +80,26 @@ export default function Scoreboard({
     Math.ceil(scores.length / SCORES_PER_PAGE),
     MAX_PAGES
   );
-  const startIndex = (currentPage - 1) * SCORES_PER_PAGE;
-  const endIndex = startIndex + SCORES_PER_PAGE;
-  const displayedScores = scores.slice(startIndex, endIndex);
+  const start = (currentPage - 1) * SCORES_PER_PAGE;
+  const slice = scores.slice(start, start + SCORES_PER_PAGE);
 
-  const isScoreAlreadySaved =
+  const isSaved =
     userScore !== null &&
     scores.some((s) => s.username === username && s.score === userScore);
 
   const handleSave = async () => {
     try {
-      const payload = {
-        user_id: userId,
-        username,
-        score: userScore,
-      };
-
-      if (!gameId.startsWith("written_")) {
-        payload.difficulty = difficulty;
-      } else {
-        difficulty = null;
-      }
-
+      const payload = { user_id: userId, username, score: userScore };
+      if (!gameId.startsWith("written_")) payload.difficulty = difficulty;
       const res = await submitScore(gameId, payload);
-
       if (res.success) {
-        const updated = await fetchScores(gameId, difficulty);
+        const updated = gameId.startsWith("written_")
+          ? await fetchScores(gameId)
+          : await fetchScores(gameId, difficulty);
         setScores(updated);
-      } else {
-        alert("Score not high enough to be saved.");
-      }
+      } else alert("Score not high enough to be saved.");
     } catch (err) {
-      console.error("Score save failed:", err);
+      console.error(err);
     }
   };
 
@@ -117,7 +107,6 @@ export default function Scoreboard({
     <div className="scoreboard-backdrop">
       <div className="scoreboard-modal">
         <h2>🏆 Scoreboard</h2>
-
         <div className={`scoreboard-table-wrapper ${fadeClass}`}>
           <table className="scoreboard-table">
             <thead>
@@ -128,43 +117,61 @@ export default function Scoreboard({
               </tr>
             </thead>
             <tbody>
-              {displayedScores.map((entry, index) => {
-                const rank = startIndex + index + 1;
-                let displayRank = rank;
-
-                // Only show medal if it's the user's top score
+              {slice.map((entry, idx) => {
+                const rank = start + idx + 1;
+                let display = rank;
                 if (medalMap[entry.username] && !medalGiven[entry.username]) {
-                  displayRank = medalMap[entry.username];
+                  display = medalMap[entry.username];
                   medalGiven[entry.username] = true;
                 }
-
+                const isCurrent = entry.username === username;
                 return (
                   <tr
                     key={rank}
-                    className={
-                      entry.username === username ? "scoreboard-highlight" : ""
-                    }
+                    className={isCurrent ? "scoreboard-highlight" : ""}
                   >
                     <td>
-                      {typeof displayRank === "number"
-                        ? `\u00A0${displayRank}`
-                        : displayRank}
+                      {typeof display === "number" ? `${display}` : display}
                     </td>
-
-                    <td>{entry.username}</td>
+                    <td>
+                      <div className="user-cell">
+                        {isCurrent && (
+                          <img
+                            src={`/avatars/${currentUserPic}`}
+                            alt="You"
+                            className="avatar-icon-scoreboard"
+                            onError={(e) =>
+                              (e.currentTarget.src = "/avatars/profile.png")
+                            }
+                          />
+                        )}
+                        <span>{entry.username}</span>
+                      </div>
+                    </td>
                     <td>{entry.score}</td>
                   </tr>
                 );
               })}
-
-              {!isScoreAlreadySaved && userScore !== null && (
+              {!isSaved && userScore !== null && (
                 <>
                   <tr className="spacer-row">
-                    <td colSpan="3"></td>
+                    <td colSpan={3}></td>
                   </tr>
                   <tr className="scoreboard-highlight">
                     <td>{showEstimated ? estimatedRank : "???"}</td>
-                    <td>{username || "You"}</td>
+                    <td>
+                      <div className="user-cell">
+                        <img
+                          src={`/avatars/${currentUserPic}`}
+                          alt="You"
+                          className="avatar-icon-scoreboard"
+                          onError={(e) =>
+                            (e.currentTarget.src = "/avatars/profile.png")
+                          }
+                        />
+                        <span>{username || "You"}</span>
+                      </div>
+                    </td>
                     <td>{userScore}</td>
                   </tr>
                 </>
@@ -172,7 +179,6 @@ export default function Scoreboard({
             </tbody>
           </table>
         </div>
-
         <div className="scoreboard-buttons">
           {totalPages > 1 && (
             <div className="pagination">
@@ -201,13 +207,11 @@ export default function Scoreboard({
               </button>
             </div>
           )}
-
-          {!isScoreAlreadySaved && userScore !== null && (
+          {!isSaved && userScore !== null && (
             <button className="save-button" onClick={handleSave}>
               Save My Score: {userScore}
             </button>
           )}
-
           <button className="close-button" onClick={onClose}>
             Close
           </button>

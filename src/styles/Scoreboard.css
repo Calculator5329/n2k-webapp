@@ -135,3 +135,13 @@
   padding: 0;
   border: none;
 }
+.avatar-icon-scoreboard {
+  width: 25px;
+  height: 25px;
+  margin: 0 6px 0 0;
+  border-radius: 10000px;
+}
+.user-cell {
+  display: flex;
+  align-items: center; /* centers image and text vertically */
+}

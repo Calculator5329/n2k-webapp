@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/LeaderboardPage.css";
 import { useAuth } from "../contexts/AuthContext";
 import Scoreboard from "../components/Scoreboard";
 import LeaderboardCard from "../components/LeaderboardCard";
+import { getUserGameStats } from "../utils/api";
 
 const leaderboardGames = [
   {
@@ -107,7 +108,15 @@ const leaderboardGames = [
 
 function LeaderboardPage() {
   const { user, loading } = useAuth();
+  const [gameUsage, setGameUsage] = useState({});
   const [selectedGame, setSelectedGame] = useState(null);
+
+  useEffect(() => {
+    if (!user) return;
+    getUserGameStats(user.firebase.uid)
+      .then((stats) => setGameUsage(stats))
+      .catch((err) => console.error("Failed to fetch game stats", err));
+  }, [user]);
 
   if (loading) {
     return <div className="leaderboard-container">Loading...</div>;
@@ -121,17 +130,23 @@ function LeaderboardPage() {
     );
   }
 
-  const userId = user.firebase.uid;
+  // sort by descending play count
+  const sortedGames = [...leaderboardGames].sort((a, b) => {
+    const aCount = gameUsage[a.id] || 0;
+    const bCount = gameUsage[b.id] || 0;
+    return bCount - aCount;
+  });
+
   const username = user.username;
+  const userId = user.firebase.uid;
 
   return (
     <div className="leaderboard-container">
       <h1>📊 Leaderboards</h1>
-
       <div className="leaderboard-cards">
-        {leaderboardGames.map((game) => (
+        {sortedGames.map((game) => (
           <LeaderboardCard
-            key={game["id"]}
+            key={game.id}
             title={game.title}
             image={game.image}
             description={game.description}
@@ -142,7 +157,6 @@ function LeaderboardPage() {
           />
         ))}
       </div>
-
       {selectedGame && (
         <Scoreboard
           gameId={selectedGame.gameId}
