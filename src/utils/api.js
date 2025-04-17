@@ -2,6 +2,11 @@ import { auth } from "../firebase";
 
 export const API_BASE_URL = "https://n2k-backend-production.up.railway.app";
 
+// 🔒 Ensures single slash between base and path
+function buildURL(path) {
+  return `${API_BASE_URL.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+}
+
 async function getAuthToken() {
   const user = auth.currentUser;
   if (!user) throw new Error("User not logged in");
@@ -11,7 +16,7 @@ async function getAuthToken() {
 export async function createUser(username, email) {
   const token = await getAuthToken();
 
-  const response = await fetch(`${API_BASE_URL}/api/create_user`, {
+  const response = await fetch(buildURL("api/create_user"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -28,26 +33,23 @@ export async function createUser(username, email) {
   return await response.json();
 }
 
-// You can add more here later, like:
 export async function getUserStats() {
   const token = await getAuthToken();
 
-  const res = await fetch(`${API_BASE_URL}/api/get_user_stats`, {
+  const res = await fetch(buildURL("api/get_user_stats"), {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch user stats");
-  }
-
+  if (!res.ok) throw new Error("Failed to fetch user stats");
   return await res.json();
 }
+
 export async function updateProfilePic(filename) {
   const token = await getAuthToken();
 
-  const res = await fetch(`${API_BASE_URL}/api/update_profile_pic`, {
+  const res = await fetch(buildURL("api/update_profile_pic"), {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -60,9 +62,9 @@ export async function updateProfilePic(filename) {
 }
 
 export async function getUserInfo() {
-  const token = await getAuthToken(); // fetch the auth token here
+  const token = await getAuthToken();
 
-  const res = await fetch(`${API_BASE_URL}/api/get_user_info`, {
+  const res = await fetch(buildURL("api/get_user_info"), {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -74,10 +76,11 @@ export async function getUserInfo() {
 
 export async function fetchScores(gameId, difficulty = null) {
   const token = await getAuthToken();
-  console.log(difficulty);
-  const url = difficulty
-    ? `${API_BASE_URL}/scores/${gameId}?difficulty=${difficulty}`
-    : `${API_BASE_URL}/scores/${gameId}`;
+  const url = buildURL(
+    difficulty
+      ? `scores/${gameId}?difficulty=${difficulty}`
+      : `scores/${gameId}`
+  );
 
   const res = await fetch(url, {
     headers: {
@@ -95,7 +98,7 @@ export async function submitScore(
 ) {
   const token = await getAuthToken();
 
-  const res = await fetch(`${API_BASE_URL}/scores/${gameId}`, {
+  const res = await fetch(buildURL(`scores/${gameId}`), {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -111,10 +114,11 @@ export async function submitScore(
 
   return await res.json();
 }
+
 export async function updateGameStats(userId, gameId) {
   const token = await getAuthToken();
 
-  await fetch(`${API_BASE_URL}/update_game_stats`, {
+  await fetch(buildURL("update_game_stats"), {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -126,17 +130,19 @@ export async function updateGameStats(userId, gameId) {
 
 export async function getUserGameStats(userId) {
   const token = await getAuthToken();
-  const res = await fetch(`${API_BASE_URL}/get_user_game_stats/${userId}`, {
+
+  const res = await fetch(buildURL(`get_user_game_stats/${userId}`), {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
   if (!res.ok) throw new Error("Failed to fetch game stats");
-  return await res.json(); // { pattern1: 5, written_easy: 3, ... }
+  return await res.json();
 }
+
 export async function getUserMedals(userId) {
-  const response = await fetch(`${API_BASE_URL}/users/${userId}/medals`);
-  if (!response.ok) throw new Error("Failed to fetch medals");
-  return response.json();
+  const res = await fetch(buildURL(`users/${userId}/medals`));
+  if (!res.ok) throw new Error("Failed to fetch medals");
+  return await res.json();
 }

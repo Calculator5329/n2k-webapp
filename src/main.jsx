@@ -7,7 +7,7 @@ import "./index.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter basename="/n2k-webapp">
+    <BrowserRouter>
       <AuthProvider>
         <App />
       </AuthProvider>
