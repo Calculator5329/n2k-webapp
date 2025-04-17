@@ -6,11 +6,7 @@ import "../styles/GameCard.css";
 export default function GameCard({ title, image, description, link, played }) {
   return (
     <div className="game-card">
-      <img
-        src={`${import.meta.env.BASE_URL}` + image}
-        alt={title}
-        className="game-image"
-      />
+      <img src={image} alt={title} className="game-image" />
       <div className="game-info">
         <h3 className="game-title">{title}</h3>
         <p className="game-description">{description}</p>

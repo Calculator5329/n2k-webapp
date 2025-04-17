@@ -137,9 +137,7 @@ export default function Scoreboard({
                       <div className="user-cell">
                         {isCurrent && (
                           <img
-                            src={`${
-                              import.meta.env.BASE_URL
-                            }/avatars/${currentUserPic}`}
+                            src={`/avatars/${currentUserPic}`}
                             alt="You"
                             className="avatar-icon-scoreboard"
                             onError={(e) =>
@@ -164,9 +162,7 @@ export default function Scoreboard({
                     <td>
                       <div className="user-cell">
                         <img
-                          src={`${
-                            import.meta.env.BASE_URL
-                          }/avatars/${currentUserPic}`}
+                          src={`/avatars/${currentUserPic}`}
                           alt="You"
                           className="avatar-icon-scoreboard"
                           onError={(e) =>

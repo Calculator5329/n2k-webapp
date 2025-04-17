@@ -18,17 +18,9 @@ export default function LeaderboardCard({
   return (
     <div className="game-card">
       {isWritten ? (
-        <img
-          src={`${import.meta.env.BASE_URL}` + image}
-          alt={title}
-          className="game-image-written"
-        />
+        <img src={image} alt={title} className="game-image-written" />
       ) : (
-        <img
-          src={`${import.meta.env.BASE_URL}` + image}
-          alt={title}
-          className="game-image"
-        />
+        <img src={image} alt={title} className="game-image" />
       )}
       <div className="game-info">
         <h3 className="game-title">{title}</h3>
