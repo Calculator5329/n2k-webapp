@@ -94,14 +94,14 @@ function LoginPage() {
 
       <p className="login-redirect-text">
         Forgot your password?{" "}
-        <a href="/forgot-password" className="login-link">
+        <a href="/#/forgot-password" className="login-link">
           Reset it here
         </a>
       </p>
 
       <p className="signup-text">
         Don’t have an account?{" "}
-        <a href="/signup" className="signup-link">
+        <a href="/#/signup" className="signup-link">
           Sign up
         </a>
       </p>

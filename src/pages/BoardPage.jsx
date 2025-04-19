@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import Board from "../components/Board";
 import SmartInputs from "../components/SmartInputs";
 import { evaluateInput } from "../utils/writtenFuncs";
-import { generatePatternBoard } from "../utils/boardFuncs";
+import { generatePatternBoard, splitStringNumber } from "../utils/boardFuncs";
 import "../styles/BoardPage.css";
 import { useNavigate } from "react-router-dom";
 import Scoreboard from "../components/Scoreboard";
@@ -46,7 +46,7 @@ function BoardPage() {
         setTimer((prevTimer) => {
           if (prevTimer <= 1) {
             setGameFinished(true);
-            const audio = new Audio("./src/sounds/TimerDone.mp3");
+            const audio = new Audio("/sounds/TimerDone.mp3");
             audio.play();
             return 0;
           }
@@ -104,8 +104,7 @@ function BoardPage() {
 
     const formatExp = (s) => {
       try {
-        const base = parseInt(s.slice(0, -1));
-        const exp = parseInt(s.slice(-1));
+        const [base, exp] = splitStringNumber(s, diceNumbers);
         return `${base}^${exp}`;
       } catch {
         return "?";

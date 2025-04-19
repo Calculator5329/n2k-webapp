@@ -32,7 +32,8 @@ function WrittenProblemsPage() {
   const userId = user?.firebase?.uid || "";
   const username = user?.username || "Unknown";
 
-  const gameId = `written_${difficulty?.toLowerCase()}`;
+  const normalize = (label) => label?.toLowerCase().replace(/\s+/g, "_");
+  const gameId = `written_${normalize(difficulty)}`;
 
   const capitalizeWords = (str) =>
     str.replace(/\b\w/g, (char) => char.toUpperCase());
@@ -241,7 +242,7 @@ function WrittenProblemsPage() {
 
               <Scoreboard
                 gameId={gameId}
-                difficulty={difficulty}
+                difficulty={normalize(difficulty)}
                 userScore={Math.round((60 * 1e6) / (endTime - startTime))} // You can tweak score formula
                 username={username}
                 userId={userId}
