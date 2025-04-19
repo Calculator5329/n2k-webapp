@@ -50,7 +50,7 @@ Built with a **React frontend**, **FastAPI backend**, **Firebase Auth**, and **P
 | Backend      | FastAPI (Python)                         |
 | Auth         | Firebase Authentication                  |
 | Database     | PostgreSQL (SQLAlchemy ORM)              |
-| Hosting      | GitHub Pages (Frontend), Cloudflare Tunnels (Backend) |
+| Hosting      | GitHub Pages, Cloudflare Tunnels         |
 
 ---
 
