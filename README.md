@@ -56,23 +56,23 @@ Built with a **React frontend**, **FastAPI backend**, **Firebase Auth**, and **P
 
 ## 🖼 Screenshots
 
+### Welcome Page
+![Homepage](./pictures/MainPage_.png)
+
 ### Game Selection Page
-![Game Selection](./screenshots/Screenshot%202025-04-19%20182026.png)
+![Game Selection](./pictures/MainPage.png)
 
 ### How to Play – Board Slam
-![How to Play](./screenshots/Screenshot%202025-04-19%20182038.png)
+![How to Play](./pictures/HowToPlay.png)
 
 ### Profile & Medals
-![Profile](./screenshots/Screenshot%202025-04-19%20182104.png)
-
-### Welcome Page
-![Homepage](./screenshots/Screenshot%202025-04-19%20182115.png)
+![Profile](./pictures/Profile.png)
 
 ### Board Slam Gameplay
-![Board Slam](./screenshots/Screenshot%202025-04-19%20182135.png)
+![Board Slam](./pictures/BoardPage.png)
 
 ### Written Problems Gameplay
-![Written Problems](./screenshots/Screenshot%202025-04-19%20182147.png)
+![Written Problems](./pictures/WrittenPage.png)
 
 ---
 
