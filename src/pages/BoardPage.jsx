@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import Board from "../components/Board";
 import SmartInputs from "../components/SmartInputs";
-import { evaluateInput } from "../utils/writtenFuncs";
-import { generatePatternBoard, splitStringNumber } from "../utils/boardFuncs";
+import { evaluateInput, splitStringNumber } from "../utils/writtenFuncs";
+import { generatePatternBoard } from "../utils/boardFuncs";
 import "../styles/BoardPage.css";
 import { useNavigate } from "react-router-dom";
 import Scoreboard from "../components/Scoreboard";
@@ -32,7 +32,7 @@ function BoardPage() {
   const [inFullRound, setInFullRound] = useState(false);
   const [buttonText, setButtonText] = useState("Start Round");
   const [showScoreboard, setShowScoreboard] = useState(false);
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const userId = user?.firebase?.uid || "";
   const username = user?.username || "Unknown";
   const gameId = `pattern${patternNum}`;
@@ -84,6 +84,10 @@ function BoardPage() {
         console.error("Failed to load dice config:", err);
       });
   }, []);
+
+  if (loading) {
+    return null; // or a spinner if you want
+  }
 
   if (!user) {
     return <Navigate to="/login" />;

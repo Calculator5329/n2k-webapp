@@ -15,7 +15,7 @@ const presetAvatars = Array.from(
 );
 
 function ProfilePage() {
-  const { user, refreshUserInfo } = useAuth();
+  const { user, loading, refreshUserInfo } = useAuth();
   const [selected, setSelected] = useState(null);
   const [message, setMessage] = useState("");
   const [medals, setMedals] = useState([]);
@@ -168,6 +168,8 @@ function ProfilePage() {
       fetchData();
     }
   }, [user]);
+
+  if (loading) return null; // or a spinner
 
   if (!user) return <Navigate to="/login" />;
 
